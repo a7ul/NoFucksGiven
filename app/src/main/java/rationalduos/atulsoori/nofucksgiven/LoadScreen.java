@@ -11,6 +11,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.charset.Charset;
+
 public class LoadScreen extends AppCompatActivity {
 
     @Override
@@ -42,24 +52,30 @@ class LoadRunner implements Runnable {
             Intent i = new Intent(activity.getApplicationContext(), FirstPage.class);
             activity.startActivity(i);
             activity.finish();
-        } catch (Exception e) {
-            e.getLocalizedMessage();
+        } catch (IOException e) {
+            //TODO
+            // No internet connection?
+            Log.e("Load screen",e.getMessage());
+        } catch (JSONException e) {
+            //TODO
+            // What's this?
+            Log.e("Load screen",e.getMessage());
         }
     }
 
-    private void verifyConfigs(JSONObject indexJson, SharedPreferences settings) throws JSONException {
+    private void verifyConfigs(JSONObject indexJson, SharedPreferences settings) throws JSONException, IOException {
         String basePath = indexJson.getString(AppConstants.INDEX_BASEPATH);
         JSONArray configsArray = indexJson.getJSONArray(AppConstants.INDEX_CONFIGS);
         SharedPreferences.Editor editor = settings.edit();
 
         for (int i=0; i < configsArray.length(); i++){
             JSONObject config = configsArray.getJSONObject(i);
-            String config_fname = config.getString(AppConstants.INDEX_CONFIGS_NAME);
+            String config_fname = config.getString(AppConstants.INDEX_CONFIGS_FILE);
             String config_md5 = config.getString(AppConstants.INDEX_CONFIGS_MD5);
             String cur_md5 = settings.getString(config_fname+"_md5","00");
             Log.d("Load screen","Config: " + config_fname);
             Log.d("Load screen","Config md5: " + config_md5);
-            Log.d("Load screen","Current md5" + cur_md5);
+            Log.d("Load screen","Current md5: " + cur_md5);
             if(!cur_md5.equals(config_md5)) {
                 downloadFile(AppConstants.SERVER_URL + basePath + config_fname, config_fname);
                 editor.putString(config_fname + "_md5", config_md5);
@@ -69,10 +85,30 @@ class LoadRunner implements Runnable {
         editor.putBoolean(AppConstants.PREF_INITIALIZED, true);
         editor.commit();
 
+        //  Following block is just for testing
+        for (int i=0; i < configsArray.length(); i++){
+            JSONObject config = configsArray.getJSONObject(i);
+            String config_fname = config.getString(AppConstants.INDEX_CONFIGS_FILE);
+            FileInputStream fis =  activity.openFileInput(config_fname);
+            String raw = new JsonReader(fis).toString();
+            Log.d("Load screen",config_fname+ " --> " + raw);
+        }
+
     }
 
-    private void downloadFile(String url, String fname){
-        //TODO
-        Log.d("Load screen","Download file" + fname);
+    private void downloadFile(String url, String fname) throws IOException {
+        Log.d("Load screen","Download file: " + fname);
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        InputStream input = new URL(url).openStream();
+        Log.d("Load screen","Download file: " + fname);
+        FileOutputStream output = activity.openFileOutput(fname, activity.MODE_PRIVATE);
+        Log.d("Load screen","Download file: " + fname);
+        while ((bytesRead = input.read(buffer)) != -1 )
+        {
+            output.write(buffer, 0, bytesRead);
+        }
+        Log.d("Load screen","Download file: " + fname);
+        output.close();
     }
 }
