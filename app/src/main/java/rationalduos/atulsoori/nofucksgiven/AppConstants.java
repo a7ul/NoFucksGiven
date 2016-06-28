@@ -18,7 +18,7 @@ public class AppConstants {
 
     /* Shared preference stuff */
 
-    public static String PREF_NAME = "noFingPreference" ;
+    public static String PREF_NAME = "noFucksPreference" ;
     public static String PREF_INITIALIZED = "is_initialized" ;
 
 
