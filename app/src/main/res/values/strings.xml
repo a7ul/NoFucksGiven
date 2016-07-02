@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">NoFucksGiven</string>
+    <string name="copy_button_text">Copy</string>
+    <string name="share_button_text">Share</string>
 </resources>
