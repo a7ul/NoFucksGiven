@@ -7,10 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.Random;
-
-import rationalduos.atulsoori.nofucksgiven.CardFragment;
-import rationalduos.atulsoori.nofucksgiven.JsonReader;
 import rationalduos.atulsoori.nofucksgiven.R;
 
 /**
@@ -24,9 +20,8 @@ public class TextCard  extends Fragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.card_fragment_layout, vg, false);
         textView = (TextView) view.findViewById(R.id.text_content);
-        Random r = new Random();
-        int tt = r.nextInt();
-        textView.setText("random" + tt);
+        String textContent = getArguments().getString("textContent");
+        textView.setText(textContent);
         return view;
     }
 }
