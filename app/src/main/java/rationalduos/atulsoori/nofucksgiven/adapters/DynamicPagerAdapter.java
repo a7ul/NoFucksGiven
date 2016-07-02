@@ -1,4 +1,4 @@
-package rationalduos.atulsoori.nofucksgiven;
+package rationalduos.atulsoori.nofucksgiven.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import java.util.Random;
 
+import rationalduos.atulsoori.nofucksgiven.adapters.DynamicPagerAdapter;
 import rationalduos.atulsoori.nofucksgiven.cardViews.TextCard;
 
 public class FirstPage extends AppCompatActivity {

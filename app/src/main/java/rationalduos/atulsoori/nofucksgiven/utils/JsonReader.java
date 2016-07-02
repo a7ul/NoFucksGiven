@@ -1,4 +1,4 @@
-package rationalduos.atulsoori.nofucksgiven;
+package rationalduos.atulsoori.nofucksgiven.utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;

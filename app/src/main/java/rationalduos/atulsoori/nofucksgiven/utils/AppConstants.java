@@ -1,4 +1,4 @@
-package rationalduos.atulsoori.nofucksgiven;
+package rationalduos.atulsoori.nofucksgiven.utils;
 
 /**
  * Created by ravio on 6/26/2016.
