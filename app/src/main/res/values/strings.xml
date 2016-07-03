@@ -2,4 +2,6 @@
     <string name="app_name">NoFucksGiven</string>
     <string name="copy_button_text">Copy</string>
     <string name="share_button_text">Share</string>
+    <string name="open_drawer">open drawer</string>
+    <string name="close_drawer">close drawer</string>
 </resources>

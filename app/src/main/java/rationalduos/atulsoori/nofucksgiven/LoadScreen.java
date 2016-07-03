@@ -48,7 +48,7 @@ class LoadRunner implements Runnable {
             Boolean isAppInitialized = settings.getBoolean(AppConstants.PREF_INITIALIZED, false);
             Log.d("Load screen",indexJson.toString());
             verifyConfigs(indexJson,settings);
-            Intent i = new Intent(activity.getApplicationContext(), FirstPage.class);
+            Intent i = new Intent(activity.getApplicationContext(), MainActivity.class);
             activity.startActivity(i);
             activity.finish();
         } catch (IOException e) {
