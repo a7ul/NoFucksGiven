@@ -51,7 +51,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableRight="@android:drawable/ic_menu_save"
-            android:paddingRight="20dp"
             android:text="@string/favourite_button_text"
             android:textColor="#e8e9e9" />
     </LinearLayout>

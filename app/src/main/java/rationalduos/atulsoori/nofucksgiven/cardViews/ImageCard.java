@@ -29,8 +29,7 @@ public class ImageCard extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup vg,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.image_card_fragment_layout, vg, false);
 
         imageView = (SubsamplingScaleImageView) view.findViewById(R.id.image_card_image);
@@ -39,7 +38,6 @@ public class ImageCard extends Fragment {
         return view;
     }
 
-    // DownloadImage AsyncTask
     private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
 
         @Override
