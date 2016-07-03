@@ -25,6 +25,7 @@ import rationalduos.atulsoori.nofucksgiven.R;
 public class MarkDownCard extends Fragment {
     TextView textView;
     StringBuffer stringBuffer;
+    private String markdownUrl;
 
     public void setMarkdown(String URL) {
         new DownloadFileFromURL().execute(URL);
@@ -36,7 +37,13 @@ public class MarkDownCard extends Fragment {
         View view = inflater.inflate(R.layout.markdown_card_fragment_layout, vg, false);
         textView = (TextView) view.findViewById(R.id.text_content);
 
-        String markdownUrl = getArguments().getString("markdownUrl");
+        try {
+            markdownUrl = getArguments().getString("markdownUrl");
+        } catch (Exception e) {
+            markdownUrl = "";
+            Log.e("NFG",Log.getStackTraceString(e));
+        }
+
         setMarkdown(markdownUrl);
 
         return view;

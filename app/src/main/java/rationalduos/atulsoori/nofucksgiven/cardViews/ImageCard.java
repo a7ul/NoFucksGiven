@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import rationalduos.atulsoori.nofucksgiven.R;
 
@@ -33,7 +35,14 @@ public class ImageCard extends Fragment {
         View view = inflater.inflate(R.layout.image_card_fragment_layout, vg, false);
 
         imageView = (SubsamplingScaleImageView) view.findViewById(R.id.image_card_image);
-        url = getArguments().getString("imageUrl");
+
+        try {
+            url = getArguments().getString("imageUrl");
+        } catch (Exception e) {
+            url = "";
+            Log.e("NFG",Log.getStackTraceString(e));
+        }
+
         setImage(url);
         return view;
     }

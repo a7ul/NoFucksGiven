@@ -15,7 +15,7 @@ import rationalduos.atulsoori.nofucksgiven.R;
 /**
  * Created by atulr on 29/06/16.
  */
-public class TextCard  extends Fragment{
+public class TextCard extends Fragment {
     TextView textView;
 
     @Override
@@ -23,8 +23,13 @@ public class TextCard  extends Fragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.text_card_fragment_layout, vg, false);
         textView = (TextView) view.findViewById(R.id.text_content);
-        String textContent = getArguments().getString("textContent");
-        textView.setText(textContent);
+
+        try {
+            textView.setText(getArguments().getString("textContent"));
+        } catch (Exception e) {
+            Log.e("NFG",Log.getStackTraceString(e));
+            textView.setText(R.string.no_text);
+        }
 
         return view;
     }

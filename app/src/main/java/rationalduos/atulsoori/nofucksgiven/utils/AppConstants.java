@@ -22,4 +22,9 @@ public class AppConstants {
     public static String PREF_INITIALIZED = "is_initialized" ;
 
 
+    /* Card Types */
+    public static final String CARD_TYPE_IMAGE = "image";
+    public static final String CARD_TYPE_TEXT = "text";
+    public static final String CARD_TYPE_MARKDOWN = "markdown";
+
 }
