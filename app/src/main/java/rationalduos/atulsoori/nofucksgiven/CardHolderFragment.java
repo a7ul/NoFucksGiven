@@ -11,17 +11,26 @@ import android.view.ViewGroup;
 import java.util.Random;
 
 import rationalduos.atulsoori.nofucksgiven.adapters.DynamicPagerAdapter;
+import rationalduos.atulsoori.nofucksgiven.cardViews.ImageCard;
 import rationalduos.atulsoori.nofucksgiven.cardViews.TextCard;
 
 public class CardHolderFragment extends Fragment {
 
-    public static TextCard getRandomTextCard(){
+    private TextCard getRandomTextCard() {
         Bundle bundle = new Bundle();
         Random t = new Random();
-        bundle.putString("textContent", "Random "+t.nextInt());
+        bundle.putString("textContent", "Random " + t.nextInt());
         TextCard tCard = new TextCard();
         tCard.setArguments(bundle);
         return tCard;
+    }
+
+    private ImageCard getRandomImageCard() {
+        Bundle bundle = new Bundle();
+        bundle.putString("imageUrl", "https://pixabay.com/static/uploads/photo/2016/01/14/01/41/image-view-1139204_960_720.jpg");
+        ImageCard mCard = new ImageCard();
+        mCard.setArguments(bundle);
+        return mCard;
     }
 
     @Override
@@ -32,7 +41,7 @@ public class CardHolderFragment extends Fragment {
 
         DynamicPagerAdapter mDynamicPagerAdapter = new DynamicPagerAdapter(getChildFragmentManager());
 
-        mDynamicPagerAdapter.addFragment(getRandomTextCard());
+        mDynamicPagerAdapter.addFragment(getRandomImageCard());
         mDynamicPagerAdapter.addFragment(getRandomTextCard());
         mDynamicPagerAdapter.addFragment(getRandomTextCard());
 

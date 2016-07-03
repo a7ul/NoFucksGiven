@@ -4,4 +4,5 @@
     <string name="share_button_text">Share</string>
     <string name="open_drawer">open drawer</string>
     <string name="close_drawer">close drawer</string>
+    <string name="favourite_button_text">Favourite</string>
 </resources>

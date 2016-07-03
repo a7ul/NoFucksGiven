@@ -18,7 +18,7 @@ public class TextCard  extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.card_fragment_layout, vg, false);
+        View view = inflater.inflate(R.layout.text_card_fragment_layout, vg, false);
         textView = (TextView) view.findViewById(R.id.text_content);
         String textContent = getArguments().getString("textContent");
         textView.setText(textContent);

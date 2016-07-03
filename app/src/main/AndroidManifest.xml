@@ -10,7 +10,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoadScreen"
-            >
+            android:theme="@style/LoadScreenTheme">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

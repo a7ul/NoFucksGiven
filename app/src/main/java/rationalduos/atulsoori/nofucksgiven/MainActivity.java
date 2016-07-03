@@ -22,9 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence drawerTitle;
     private CharSequence title;
     private FragmentManager fragmentManager;
-    private Fragment[] fragmentList;
-
-    String[] navStringsArray;
+    private String[] navStringsArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +34,6 @@ public class MainActivity extends AppCompatActivity {
         navStringsArray = new String[]{"General", "Images", "Text", "Favourites"};
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         drawerList = (ListView) findViewById(R.id.drawerList);
-        fragmentList = new Fragment[]{
-                new CardHolderFragment(),
-                new CardHolderFragment()
-        };
 
         drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, navStringsArray));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
