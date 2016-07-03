@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, navStringsArray));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        fragmentManager.beginTransaction().replace(R.id.frameContainer,fragmentList[0]).commit();
+        fragmentManager.beginTransaction().replace(R.id.frameContainer,new FirstPage()).commit();
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer) {
             public void onDrawerClosed(View view) {
@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void selectItem(int position) {
         Log.d("NFG",position+" - "+navStringsArray[position]);
+        fragmentManager.beginTransaction().replace(R.id.frameContainer,new FirstPage()).commit();
 
         // Update Title on action bar
         drawerList.setItemChecked(position, true);

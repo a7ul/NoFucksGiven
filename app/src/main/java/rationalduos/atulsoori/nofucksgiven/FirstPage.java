@@ -30,7 +30,7 @@ public class FirstPage extends Fragment {
         View view = inflater.inflate(R.layout.first_page_layout, vg, false);
         ViewPager pager = (ViewPager) view.findViewById(R.id.viewPager);
 
-        DynamicPagerAdapter mDynamicPagerAdapter = new DynamicPagerAdapter(getActivity().getSupportFragmentManager());
+        DynamicPagerAdapter mDynamicPagerAdapter = new DynamicPagerAdapter(getChildFragmentManager());
 
         mDynamicPagerAdapter.addFragment(getRandomTextCard());
         mDynamicPagerAdapter.addFragment(getRandomTextCard());
