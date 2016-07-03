@@ -12,6 +12,7 @@ import java.util.Random;
 
 import rationalduos.atulsoori.nofucksgiven.adapters.DynamicPagerAdapter;
 import rationalduos.atulsoori.nofucksgiven.cardViews.ImageCard;
+import rationalduos.atulsoori.nofucksgiven.cardViews.MarkDownCard;
 import rationalduos.atulsoori.nofucksgiven.cardViews.TextCard;
 
 public class CardHolderFragment extends Fragment {
@@ -33,6 +34,14 @@ public class CardHolderFragment extends Fragment {
         return mCard;
     }
 
+    private MarkDownCard getRandomMarkdownCard() {
+        Bundle bundle = new Bundle();
+        bundle.putString("markdownUrl", "https://raw.githubusercontent.com/BucketDevelopers/NFGAssets/master/assets/texts/sample-text.md");
+        MarkDownCard mkCard = new MarkDownCard();
+        mkCard.setArguments(bundle);
+        return mkCard;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
@@ -42,7 +51,7 @@ public class CardHolderFragment extends Fragment {
         DynamicPagerAdapter mDynamicPagerAdapter = new DynamicPagerAdapter(getChildFragmentManager());
 
         mDynamicPagerAdapter.addFragment(getRandomImageCard());
-        mDynamicPagerAdapter.addFragment(getRandomTextCard());
+        mDynamicPagerAdapter.addFragment(getRandomMarkdownCard());
         mDynamicPagerAdapter.addFragment(getRandomTextCard());
 
         if (pager != null) {

@@ -27,7 +27,7 @@
                 android:id="@+id/text_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="fill_horizontal"
                 android:padding="30dp"
                 android:textSize="@dimen/text_content_size" />
         </ScrollView>
