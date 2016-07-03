@@ -13,7 +13,7 @@ import java.util.Random;
 import rationalduos.atulsoori.nofucksgiven.adapters.DynamicPagerAdapter;
 import rationalduos.atulsoori.nofucksgiven.cardViews.TextCard;
 
-public class FirstPage extends Fragment {
+public class CardHolderFragment extends Fragment {
 
     public static TextCard getRandomTextCard(){
         Bundle bundle = new Bundle();
@@ -27,7 +27,7 @@ public class FirstPage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.first_page_layout, vg, false);
+        View view = inflater.inflate(R.layout.card_holder_fragment_layout, vg, false);
         ViewPager pager = (ViewPager) view.findViewById(R.id.viewPager);
 
         DynamicPagerAdapter mDynamicPagerAdapter = new DynamicPagerAdapter(getChildFragmentManager());

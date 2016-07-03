@@ -37,14 +37,14 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         drawerList = (ListView) findViewById(R.id.drawerList);
         fragmentList = new Fragment[]{
-                new FirstPage(),
-                new FirstPage()
+                new CardHolderFragment(),
+                new CardHolderFragment()
         };
 
         drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, navStringsArray));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        fragmentManager.beginTransaction().replace(R.id.frameContainer,new FirstPage()).commit();
+        fragmentManager.beginTransaction().replace(R.id.frameContainer,new CardHolderFragment()).commit();
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer) {
             public void onDrawerClosed(View view) {
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void selectItem(int position) {
         Log.d("NFG",position+" - "+navStringsArray[position]);
-        fragmentManager.beginTransaction().replace(R.id.frameContainer,new FirstPage()).commit();
+        fragmentManager.beginTransaction().replace(R.id.frameContainer,new CardHolderFragment()).commit();
 
         // Update Title on action bar
         drawerList.setItemChecked(position, true);
