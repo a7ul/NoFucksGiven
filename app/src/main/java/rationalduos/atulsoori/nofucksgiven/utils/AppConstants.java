@@ -16,6 +16,16 @@ public class AppConstants {
     public static String INDEX_CONFIGS_FILE = "file";
     public static String INDEX_CONFIGS_MD5 = "md5";
 
+    /* Other Config labels */
+    public static String OTHER_CONFIGS_FILES = "files";
+    public static String OTHER_CONFIGS_BASEPATH = "basePath";
+
+    /* Other JSONCardData labels */
+    public static  String CARD_JSON_NAME = "name";
+    public static  String CARD_JSON_TEXT = "text";
+    public static  String CARD_JSON_FILE = "file";
+    public static  String CARD_JSON_CONTRIBUTOR = "contributor";
+
     /* Shared preference stuff */
 
     public static String PREF_NAME = "noFucksPreference" ;

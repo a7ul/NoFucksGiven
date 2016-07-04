@@ -21,6 +21,11 @@ public class CardInfo implements Parcelable {
         data = _data;
     }
 
+    @Override
+    public String toString() {
+        return this.id + " " + this.name + " " + this.contributor + " " + this.type + " " + this.data;
+    }
+
     public String getId() {
         return id;
     }
@@ -65,6 +70,7 @@ public class CardInfo implements Parcelable {
         type = in.readString();
         data = in.readString();
     }
+
     public int describeContents() {
         return 0;
     }

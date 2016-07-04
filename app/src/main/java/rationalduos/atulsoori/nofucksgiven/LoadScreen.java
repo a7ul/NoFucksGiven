@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.facebook.stetho.Stetho;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,7 +18,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
+import rationalduos.atulsoori.nofucksgiven.models.CardInfo;
 import rationalduos.atulsoori.nofucksgiven.utils.AppConstants;
 import rationalduos.atulsoori.nofucksgiven.utils.DatabaseHandler;
 import rationalduos.atulsoori.nofucksgiven.utils.JsonReader;
@@ -41,18 +46,20 @@ public class LoadScreen extends AppCompatActivity {
 }
 
 class LoadRunner implements Runnable {
-    LoadScreen activity;
+    private LoadScreen activity;
+    private DatabaseHandler appDbHandler;
 
-    LoadRunner(LoadScreen actvt) {
+    public LoadRunner(LoadScreen actvt) {
         this.activity = actvt;
+        this.appDbHandler = activity.getDbHandler();
     }
 
     @Override
     public void run() {
         try {
             // Get index json
-            JSONObject indexJson = new JsonReader(AppConstants.SERVER_URL + AppConstants.INDEX_FILE).getJson();
             downloadFile(AppConstants.SERVER_URL + AppConstants.INDEX_FILE, AppConstants.INDEX_FILE); // added by atul
+            JSONObject indexJson = new JsonReader(activity.openFileInput(AppConstants.INDEX_FILE)).getJson();
             SharedPreferences settings = activity.getSharedPreferences(AppConstants.PREF_NAME, 0);
 
             Boolean isAppInitialized = settings.getBoolean(AppConstants.PREF_INITIALIZED, false);
@@ -73,9 +80,10 @@ class LoadRunner implements Runnable {
     }
 
     private void verifyConfigs(JSONObject indexJson, SharedPreferences settings) throws JSONException, IOException {
-        String basePath = indexJson.getString(AppConstants.INDEX_BASEPATH);
+        String indexBasePath = indexJson.getString(AppConstants.INDEX_BASEPATH);
         JSONArray configsArray = indexJson.getJSONArray(AppConstants.INDEX_CONFIGS);
         SharedPreferences.Editor editor = settings.edit();
+
 
         for (int i = 0; i < configsArray.length(); i++) {
             JSONObject config = configsArray.getJSONObject(i);
@@ -86,7 +94,7 @@ class LoadRunner implements Runnable {
             Log.d("NFG", "Config md5: " + config_md5);
             Log.d("NFG", "Current md5: " + cur_md5);
             if (!cur_md5.equals(config_md5)) {
-                downloadFile(AppConstants.SERVER_URL + basePath + config_fname, config_fname);
+                downloadFile(AppConstants.SERVER_URL + indexBasePath + config_fname, config_fname);
                 editor.putString(config_fname + "_md5", config_md5);
             }
         }
@@ -95,13 +103,88 @@ class LoadRunner implements Runnable {
         editor.apply();
 
         //  Following block is just for testing
+        appDbHandler.deleteAllFucks();
         for (int i = 0; i < configsArray.length(); i++) {
             JSONObject config = configsArray.getJSONObject(i);
             String config_fname = config.getString(AppConstants.INDEX_CONFIGS_FILE);
+            String config_name = config.getString(AppConstants.INDEX_CONFIGS_NAME);
             FileInputStream fis = activity.openFileInput(config_fname);
-            String raw = new JsonReader(fis).toString();
-            Log.d("NFG", "CONFIG: " + config_fname + " --> " + raw);
+
+            JSONObject configJson = new JsonReader(fis).getJson();
+            List<CardInfo> listOfCards = getListOfCardsFromJson(config_name, configJson);
+            Log.d("NFG", listOfCards.toString());
+            appDbHandler.addListOfFucks(listOfCards);
         }
+    }
+
+    private List<CardInfo> getListOfCardsFromJson(String config_name, JSONObject configJson) throws JSONException {
+
+        JSONArray cardDataFromJsonList = configJson.getJSONArray(AppConstants.OTHER_CONFIGS_FILES);
+        String configBasePath = configJson.getString(AppConstants.OTHER_CONFIGS_BASEPATH);
+
+        List<CardInfo> cardInfoList = new ArrayList<>();
+
+        for (int dataIndex = 0; dataIndex < cardDataFromJsonList.length(); ++dataIndex) {
+            JSONObject cardDataFromJson = cardDataFromJsonList.getJSONObject(dataIndex);
+            String type;
+            String id;
+            switch (config_name) {
+                case "images":
+                    type = AppConstants.CARD_TYPE_IMAGE;
+                    id = "i" + dataIndex;
+                    break;
+                case "texts":
+                    type = AppConstants.CARD_TYPE_MARKDOWN;
+                    id = "t" + dataIndex;
+                    break;
+                default:
+                    type = null;
+                    id = null;
+                    break;
+            }
+
+            try {
+                cardInfoList.add(getCardInfoFromCardJsonObject(id, type, cardDataFromJson, configBasePath));
+            } catch (Exception e) {
+                Log.e("NFG", Log.getStackTraceString(e));
+            }
+        }
+        return cardInfoList;
+    }
+
+    private CardInfo getCardInfoFromCardJsonObject(String id, String _type, JSONObject cardDataFromJson, String basePath) throws JSONException {
+
+        String name = "";
+        String contributor = "";
+        String data = null;
+        String type = _type;
+
+        try {
+            name = cardDataFromJson.getString(AppConstants.CARD_JSON_NAME);
+        } catch (Exception ignored) {
+        }
+
+        try {
+            contributor = cardDataFromJson.getString(AppConstants.CARD_JSON_CONTRIBUTOR);
+        } catch (Exception ignored) {
+        }
+
+        try {
+            data = cardDataFromJson.getString(AppConstants.CARD_JSON_TEXT);
+            type = AppConstants.CARD_TYPE_TEXT;
+        } catch (Exception ignored) {
+        }
+
+        try {
+            data = AppConstants.SERVER_URL + basePath + cardDataFromJson.getString(AppConstants.CARD_JSON_FILE);
+        } catch (Exception ignored) {
+        }
+
+        if (data == null || type == null || id == null) {
+            throw new JSONException("Incorrect card Json data" + id + type + cardDataFromJson.toString());
+        }
+
+        return new CardInfo(id, name, contributor, type, data);
     }
 
     private void downloadFile(String url, String fname) throws IOException {

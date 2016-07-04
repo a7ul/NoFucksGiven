@@ -12,6 +12,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.facebook.stetho.Stetho;
+
 import java.util.ArrayList;
 
 import rationalduos.atulsoori.nofucksgiven.models.CardInfo;
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Stetho.initializeWithDefaults(this);
 
         fragmentManager = getSupportFragmentManager();
         title = drawerTitle = getTitle();

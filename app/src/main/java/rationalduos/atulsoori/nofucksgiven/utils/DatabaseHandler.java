@@ -40,7 +40,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_FUCKS_TABLE = "CREATE TABLE " + TABLE_FUCKS + "("
                 + KEY_ID + " TEXT PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_CONTRIBUTOR + " TEXT" + KEY_TYPE + " TEXT," + KEY_DATA + " TEXT," + ")";
+                + KEY_CONTRIBUTOR + " TEXT," + KEY_TYPE + " TEXT," + KEY_DATA + " TEXT" + ")";
         db.execSQL(CREATE_FUCKS_TABLE);
     }
 
