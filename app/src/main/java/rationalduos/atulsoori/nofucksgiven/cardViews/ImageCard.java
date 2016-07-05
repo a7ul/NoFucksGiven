@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
@@ -26,6 +27,8 @@ public class ImageCard extends Fragment {
     SubsamplingScaleImageView imageView;
     String url;
     private LinearLayout spinner;
+    private LinearLayout errorView;
+    private Button retryButton;
 
     public void setImage(String URL) {
         new DownloadImage(spinner).execute(URL);
@@ -37,7 +40,8 @@ public class ImageCard extends Fragment {
 
         imageView = (SubsamplingScaleImageView) view.findViewById(R.id.image_card_image);
         spinner = (LinearLayout) view.findViewById(R.id.progressBar);
-
+        errorView = (LinearLayout) view.findViewById(R.id.error_view);
+        retryButton = (Button) view.findViewById(R.id.retry_button);
 
         try {
             url = getArguments().getString("imageUrl");
@@ -45,6 +49,13 @@ public class ImageCard extends Fragment {
             url = "";
             Log.e("NFG",Log.getStackTraceString(e));
         }
+
+        retryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setImage(url);
+            }
+        });
 
         setImage(url);
         return view;
@@ -58,6 +69,7 @@ public class ImageCard extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            errorView.setVisibility(View.GONE);
             spinner.setVisibility(View.VISIBLE);
         }
 
@@ -70,7 +82,7 @@ public class ImageCard extends Fragment {
                 InputStream input = new java.net.URL(imageURL).openStream();
                 bitmap = BitmapFactory.decodeStream(input);
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("NFG",Log.getStackTraceString(e));
             }
             return bitmap;
         }
@@ -81,6 +93,7 @@ public class ImageCard extends Fragment {
                 imageView.setImage(ImageSource.bitmap(result));
             }catch (Exception e){
                 Log.e("NFG",Log.getStackTraceString(e));
+                errorView.setVisibility(View.VISIBLE);
             }
             spinner.setVisibility(View.GONE);
         }

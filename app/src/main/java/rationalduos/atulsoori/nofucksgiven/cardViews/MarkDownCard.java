@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,8 +26,11 @@ import rationalduos.atulsoori.nofucksgiven.R;
  */
 public class MarkDownCard extends Fragment {
     TextView textView;
-    StringBuffer stringBuffer;
+    StringBuffer stringBuffer = null;
+    String markdownUrl;
     private LinearLayout spinner;
+    private LinearLayout errorView;
+    private Button retryButton;
 
     public void setMarkdown(String URL) {
         new DownloadFileFromURL(spinner).execute(URL);
@@ -38,7 +42,8 @@ public class MarkDownCard extends Fragment {
         View view = inflater.inflate(R.layout.markdown_card_fragment_layout, vg, false);
         textView = (TextView) view.findViewById(R.id.text_content);
         spinner = (LinearLayout) view.findViewById(R.id.progressBar);
-        String markdownUrl;
+        errorView = (LinearLayout) view.findViewById(R.id.error_view);
+        retryButton = (Button) view.findViewById(R.id.retry_button);
 
         try {
             markdownUrl = getArguments().getString("markdownUrl");
@@ -47,8 +52,14 @@ public class MarkDownCard extends Fragment {
             Log.e("NFG",Log.getStackTraceString(e));
         }
 
-        setMarkdown(markdownUrl);
+        retryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setMarkdown(markdownUrl);
+            }
+        });
 
+        setMarkdown(markdownUrl);
         return view;
     }
 
@@ -61,6 +72,7 @@ public class MarkDownCard extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            errorView.setVisibility(View.GONE);
             spinner.setVisibility(View.VISIBLE);
         }
 
@@ -83,7 +95,6 @@ public class MarkDownCard extends Fragment {
 
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage());
-                stringBuffer = new StringBuffer("#Error while getting text !");
             }
 
             return null;
@@ -91,10 +102,14 @@ public class MarkDownCard extends Fragment {
 
         @Override
         protected void onPostExecute(String file_url) {
-            Bypass bypass = new Bypass(getActivity());
-            SpannedString string = new SpannedString(bypass.markdownToSpannable(stringBuffer.toString()));
-            textView.setText(string);
-            textView.setMovementMethod(LinkMovementMethod.getInstance());
+            try {
+                Bypass bypass = new Bypass(getActivity());
+                SpannedString string = new SpannedString(bypass.markdownToSpannable(stringBuffer.toString()));
+                textView.setText(string);
+                textView.setMovementMethod(LinkMovementMethod.getInstance());
+            }catch (Exception e){
+                errorView.setVisibility(View.VISIBLE);
+            }
             spinner.setVisibility(View.GONE);
         }
 
