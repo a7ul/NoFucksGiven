@@ -1,5 +1,6 @@
 package rationalduos.atulsoori.nofucksgiven;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -7,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.eftimoff.viewpagertransformers.RotateUpTransformer;
 
 import java.util.ArrayList;
 
@@ -78,6 +81,11 @@ public class CardHolderFragment extends Fragment {
 
         try {
             pager.setAdapter(mDynamicPagerAdapter);
+
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                pager.setPageTransformer(true, new RotateUpTransformer());
+            }
+
         } catch (Exception e) {
             Log.d("NFG", Log.getStackTraceString(e));
         }
