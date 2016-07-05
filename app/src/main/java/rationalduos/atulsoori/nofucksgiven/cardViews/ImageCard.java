@@ -9,12 +9,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 
 import rationalduos.atulsoori.nofucksgiven.R;
 
@@ -25,9 +25,10 @@ import rationalduos.atulsoori.nofucksgiven.R;
 public class ImageCard extends Fragment {
     SubsamplingScaleImageView imageView;
     String url;
+    private LinearLayout spinner;
 
     public void setImage(String URL) {
-        new DownloadImage().execute(URL);
+        new DownloadImage(spinner).execute(URL);
     }
 
     @Override
@@ -35,6 +36,8 @@ public class ImageCard extends Fragment {
         View view = inflater.inflate(R.layout.image_card_fragment_layout, vg, false);
 
         imageView = (SubsamplingScaleImageView) view.findViewById(R.id.image_card_image);
+        spinner = (LinearLayout) view.findViewById(R.id.progressBar);
+
 
         try {
             url = getArguments().getString("imageUrl");
@@ -48,10 +51,14 @@ public class ImageCard extends Fragment {
     }
 
     private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
-
+        LinearLayout spinner;
+        public DownloadImage(LinearLayout spinner){
+            this.spinner = spinner;
+        }
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            spinner.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -75,6 +82,7 @@ public class ImageCard extends Fragment {
             }catch (Exception e){
                 Log.e("NFG",Log.getStackTraceString(e));
             }
+            spinner.setVisibility(View.GONE);
         }
     }
 }

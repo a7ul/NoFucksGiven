@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -25,10 +26,10 @@ import rationalduos.atulsoori.nofucksgiven.R;
 public class MarkDownCard extends Fragment {
     TextView textView;
     StringBuffer stringBuffer;
-    private String markdownUrl;
+    private LinearLayout spinner;
 
     public void setMarkdown(String URL) {
-        new DownloadFileFromURL().execute(URL);
+        new DownloadFileFromURL(spinner).execute(URL);
     }
 
     @Override
@@ -36,6 +37,8 @@ public class MarkDownCard extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.markdown_card_fragment_layout, vg, false);
         textView = (TextView) view.findViewById(R.id.text_content);
+        spinner = (LinearLayout) view.findViewById(R.id.progressBar);
+        String markdownUrl;
 
         try {
             markdownUrl = getArguments().getString("markdownUrl");
@@ -50,16 +53,20 @@ public class MarkDownCard extends Fragment {
     }
 
     class DownloadFileFromURL extends AsyncTask<String, String, String> {
+        LinearLayout spinner;
+        public DownloadFileFromURL(LinearLayout spinner){
+            this.spinner = spinner;
+        }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            spinner.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected String doInBackground(String... f_url) {
             try {
-                System.out.println("Downloading");
                 URL url = new URL(f_url[0]);
                 URLConnection connection = url.openConnection();
                 connection.connect();
@@ -88,6 +95,7 @@ public class MarkDownCard extends Fragment {
             SpannedString string = new SpannedString(bypass.markdownToSpannable(stringBuffer.toString()));
             textView.setText(string);
             textView.setMovementMethod(LinkMovementMethod.getInstance());
+            spinner.setVisibility(View.GONE);
         }
 
     }
