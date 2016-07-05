@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.facebook.stetho.Stetho;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -177,6 +175,11 @@ class LoadRunner implements Runnable {
 
         try {
             data = AppConstants.SERVER_URL + basePath + cardDataFromJson.getString(AppConstants.CARD_JSON_FILE);
+        } catch (Exception ignored) {
+        }
+
+        try {
+            data = cardDataFromJson.getString(AppConstants.CARD_JSON_URL);
         } catch (Exception ignored) {
         }
 

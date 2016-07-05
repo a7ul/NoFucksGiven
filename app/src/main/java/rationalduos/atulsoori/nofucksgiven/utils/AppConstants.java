@@ -21,15 +21,16 @@ public class AppConstants {
     public static String OTHER_CONFIGS_BASEPATH = "basePath";
 
     /* Other JSONCardData labels */
-    public static  String CARD_JSON_NAME = "name";
-    public static  String CARD_JSON_TEXT = "text";
-    public static  String CARD_JSON_FILE = "file";
-    public static  String CARD_JSON_CONTRIBUTOR = "contributor";
+    public static String CARD_JSON_NAME = "name";
+    public static String CARD_JSON_TEXT = "text";
+    public static String CARD_JSON_FILE = "file";
+    public static String CARD_JSON_URL = "url";
+    public static String CARD_JSON_CONTRIBUTOR = "contributor";
 
     /* Shared preference stuff */
 
-    public static String PREF_NAME = "noFucksPreference" ;
-    public static String PREF_INITIALIZED = "is_initialized" ;
+    public static String PREF_NAME = "noFucksPreference";
+    public static String PREF_INITIALIZED = "is_initialized";
 
 
     /* Card Types */

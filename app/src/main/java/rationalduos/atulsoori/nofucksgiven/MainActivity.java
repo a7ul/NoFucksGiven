@@ -18,11 +18,13 @@ import java.util.ArrayList;
 
 import rationalduos.atulsoori.nofucksgiven.models.CardInfo;
 import rationalduos.atulsoori.nofucksgiven.utils.AppConstants;
+import rationalduos.atulsoori.nofucksgiven.utils.DatabaseHandler;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
+    private DatabaseHandler dbHandler;
 
     private CharSequence drawerTitle;
     private CharSequence title;
@@ -40,22 +42,20 @@ public class MainActivity extends AppCompatActivity {
 
     private CardHolderFragment getCardHolderBasedOnCategory(int index) {
 
-        ArrayList<CardInfo> listOfCardInfo = new ArrayList<>();
-
-        listOfCardInfo.add(new CardInfo("t0", "test-text-card", "test1", AppConstants.CARD_TYPE_TEXT, "Test data"));
-        listOfCardInfo.add(new CardInfo("t1", "test-markdown-card", "test2", AppConstants.CARD_TYPE_MARKDOWN, "https://raw.githubusercontent.com/BucketDevelopers/NFGAssets/master/assets/texts/sample-text.md"));
-        listOfCardInfo.add(new CardInfo("i0", "test-image-card", "test3", AppConstants.CARD_TYPE_IMAGE, "https://pixabay.com/static/uploads/photo/2016/01/14/01/41/image-view-1139204_960_720.jpg"));
-
+        //TODO Have to load only 5 fragments at a time
         switch (index) {
             case 0: //General
-                return getCardHolderFromList(listOfCardInfo);
+                return getCardHolderFromList((ArrayList<CardInfo>) dbHandler.getAllFucks());
             case 1: //Images
-                return new CardHolderFragment();
+                return getCardHolderFromList((ArrayList<CardInfo>) dbHandler.getAllFucksOfType(AppConstants.CARD_TYPE_IMAGE));
             case 2: //Text
-                return new CardHolderFragment();
+                ArrayList<CardInfo> listOfCards = new ArrayList<>();
+                listOfCards.addAll(dbHandler.getAllFucksOfType(AppConstants.CARD_TYPE_TEXT));
+                listOfCards.addAll(dbHandler.getAllFucksOfType(AppConstants.CARD_TYPE_MARKDOWN));
+                return getCardHolderFromList(listOfCards);
             case 3: //Favourites
-                return new CardHolderFragment();
-            default:
+                return new CardHolderFragment(); //TODO FAVOURITES
+             default:
                 return null;
         }
     }
@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         navStringsArray = new String[]{"General", "Images", "Text", "Favourites"};
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         drawerList = (ListView) findViewById(R.id.drawerList);
+        dbHandler = new DatabaseHandler(this);
 
         drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, navStringsArray));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());

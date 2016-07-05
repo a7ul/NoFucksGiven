@@ -70,7 +70,11 @@ public class ImageCard extends Fragment {
 
         @Override
         protected void onPostExecute(Bitmap result) {
-            imageView.setImage(ImageSource.bitmap(result));
+            try{
+                imageView.setImage(ImageSource.bitmap(result));
+            }catch (Exception e){
+                Log.e("NFG",Log.getStackTraceString(e));
+            }
         }
     }
 }
