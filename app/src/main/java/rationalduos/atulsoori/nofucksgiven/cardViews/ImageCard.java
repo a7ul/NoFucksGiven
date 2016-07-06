@@ -68,6 +68,11 @@ public class ImageCard extends GenericCard {
         return R.layout.image_card_view;
     }
 
+    @Override
+    public String getCopyString() {
+        return url;
+    }
+
     private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
         LinearLayout spinner;
         public DownloadImage(LinearLayout spinner){

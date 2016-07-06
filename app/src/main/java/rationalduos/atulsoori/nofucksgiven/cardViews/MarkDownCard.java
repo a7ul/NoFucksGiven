@@ -71,6 +71,11 @@ public class MarkDownCard extends GenericCard {
         return R.layout.markdown_card_view;
     }
 
+    @Override
+    public String getCopyString() {
+        return textView.getText().toString();
+    }
+
     class DownloadFileFromURL extends AsyncTask<String, String, String> {
         LinearLayout spinner;
 

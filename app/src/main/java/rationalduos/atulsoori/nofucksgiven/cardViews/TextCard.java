@@ -38,4 +38,9 @@ public class TextCard extends GenericCard {
     public int getCardLayoutResource(){
         return R.layout.text_card_view;
     }
+
+    @Override
+    public String getCopyString() {
+        return textView.getText().toString();
+    }
 }
