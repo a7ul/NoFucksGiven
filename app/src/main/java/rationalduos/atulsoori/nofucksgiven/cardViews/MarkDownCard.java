@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,17 +40,23 @@ public class MarkDownCard extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.markdown_card_fragment_layout, vg, false);
-        textView = (TextView) view.findViewById(R.id.text_content);
-        spinner = (LinearLayout) view.findViewById(R.id.progressBar);
-        errorView = (LinearLayout) view.findViewById(R.id.error_view);
-        retryButton = (Button) view.findViewById(R.id.retry_button);
+        // Load card_fragment_layout and load innerView with markdown_card_view
+        View containerView = inflater.inflate(R.layout.card_view_fragment, vg, false);
+        ViewStub cardContainer = (ViewStub) containerView.findViewById(R.id.card_container);
+        cardContainer.setLayoutResource(R.layout.markdown_card_view);
+        View innerView = cardContainer.inflate();
+
+
+        textView = (TextView) innerView.findViewById(R.id.text_content);
+        spinner = (LinearLayout) innerView.findViewById(R.id.progressBar);
+        errorView = (LinearLayout) innerView.findViewById(R.id.error_view);
+        retryButton = (Button) innerView.findViewById(R.id.retry_button);
 
         try {
             markdownUrl = getArguments().getString("markdownUrl");
         } catch (Exception e) {
             markdownUrl = "";
-            Log.e("NFG",Log.getStackTraceString(e));
+            Log.e("NFG", Log.getStackTraceString(e));
         }
 
         retryButton.setOnClickListener(new View.OnClickListener() {
@@ -60,12 +67,13 @@ public class MarkDownCard extends Fragment {
         });
 
         setMarkdown(markdownUrl);
-        return view;
+        return containerView;
     }
 
     class DownloadFileFromURL extends AsyncTask<String, String, String> {
         LinearLayout spinner;
-        public DownloadFileFromURL(LinearLayout spinner){
+
+        public DownloadFileFromURL(LinearLayout spinner) {
             this.spinner = spinner;
         }
 
@@ -107,7 +115,7 @@ public class MarkDownCard extends Fragment {
                 SpannedString string = new SpannedString(bypass.markdownToSpannable(stringBuffer.toString()));
                 textView.setText(string);
                 textView.setMovementMethod(LinkMovementMethod.getInstance());
-            }catch (Exception e){
+            } catch (Exception e) {
                 errorView.setVisibility(View.VISIBLE);
             }
             spinner.setVisibility(View.GONE);

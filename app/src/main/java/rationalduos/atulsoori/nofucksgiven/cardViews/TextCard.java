@@ -2,12 +2,11 @@ package rationalduos.atulsoori.nofucksgiven.cardViews;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.SpannedString;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.TextView;
 
 import rationalduos.atulsoori.nofucksgiven.R;
@@ -17,12 +16,16 @@ import rationalduos.atulsoori.nofucksgiven.R;
  */
 public class TextCard extends Fragment {
     TextView textView;
+    ViewStub cardContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.text_card_fragment_layout, vg, false);
-        textView = (TextView) view.findViewById(R.id.text_content);
+        View containerView = inflater.inflate(R.layout.card_view_fragment, vg, false);
+        cardContainer = (ViewStub) containerView.findViewById(R.id.card_container);
+        cardContainer.setLayoutResource(R.layout.text_card_view);
+        View innerView = cardContainer.inflate();
+        textView = (TextView) innerView.findViewById(R.id.text_content);
 
         try {
             textView.setText(getArguments().getString("textContent"));
@@ -31,6 +34,6 @@ public class TextCard extends Fragment {
             textView.setText(R.string.no_text);
         }
 
-        return view;
+        return containerView;
     }
 }
