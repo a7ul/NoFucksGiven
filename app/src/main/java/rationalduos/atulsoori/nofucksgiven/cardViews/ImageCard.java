@@ -24,7 +24,7 @@ import rationalduos.atulsoori.nofucksgiven.R;
 /**
  * Created by atulr on 29/06/16.
  */
-public class ImageCard extends Fragment {
+public class ImageCard extends GenericCard {
     SubsamplingScaleImageView imageView;
     String url;
     private LinearLayout spinner;
@@ -37,17 +37,13 @@ public class ImageCard extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceState) {
-        // Load card_fragment_layout and load innerView with image_card_view
-        View containerView = inflater.inflate(R.layout.card_view_fragment, vg, false);
-        ViewStub cardContainer = (ViewStub) containerView.findViewById(R.id.card_container);
-        cardContainer.setLayoutResource(R.layout.image_card_view);
-        View innerView = cardContainer.inflate();
 
+        View view = super.onCreateView(inflater, vg, savedInstanceState);
 
-        imageView = (SubsamplingScaleImageView) innerView.findViewById(R.id.image_card_image);
-        spinner = (LinearLayout) innerView.findViewById(R.id.progressBar);
-        errorView = (LinearLayout) innerView.findViewById(R.id.error_view);
-        retryButton = (Button) innerView.findViewById(R.id.retry_button);
+        imageView = (SubsamplingScaleImageView) view.findViewById(R.id.image_card_image);
+        spinner = (LinearLayout) view.findViewById(R.id.progressBar);
+        errorView = (LinearLayout) view.findViewById(R.id.error_view);
+        retryButton = (Button) view.findViewById(R.id.retry_button);
 
         try {
             url = getArguments().getString("imageUrl");
@@ -64,7 +60,12 @@ public class ImageCard extends Fragment {
         });
 
         setImage(url);
-        return containerView;
+        return view;
+    }
+
+    @Override
+    public int getCardLayoutResource() {
+        return R.layout.image_card_view;
     }
 
     private class DownloadImage extends AsyncTask<String, Void, Bitmap> {

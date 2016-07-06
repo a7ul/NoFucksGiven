@@ -14,18 +14,15 @@ import rationalduos.atulsoori.nofucksgiven.R;
 /**
  * Created by atulr on 29/06/16.
  */
-public class TextCard extends Fragment {
+public class TextCard extends GenericCard {
     TextView textView;
     ViewStub cardContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
-        View containerView = inflater.inflate(R.layout.card_view_fragment, vg, false);
-        cardContainer = (ViewStub) containerView.findViewById(R.id.card_container);
-        cardContainer.setLayoutResource(R.layout.text_card_view);
-        View innerView = cardContainer.inflate();
-        textView = (TextView) innerView.findViewById(R.id.text_content);
+        View view = super.onCreateView(inflater,vg,savedInstanceState);
+        textView = (TextView) view.findViewById(R.id.text_content);
 
         try {
             textView.setText(getArguments().getString("textContent"));
@@ -34,6 +31,11 @@ public class TextCard extends Fragment {
             textView.setText(R.string.no_text);
         }
 
-        return containerView;
+        return view;
+    }
+
+    @Override
+    public int getCardLayoutResource(){
+        return R.layout.text_card_view;
     }
 }

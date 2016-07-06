@@ -25,7 +25,7 @@ import rationalduos.atulsoori.nofucksgiven.R;
 /**
  * Created by atulr on 29/06/16.
  */
-public class MarkDownCard extends Fragment {
+public class MarkDownCard extends GenericCard {
     TextView textView;
     StringBuffer stringBuffer = null;
     String markdownUrl;
@@ -40,17 +40,13 @@ public class MarkDownCard extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
-        // Load card_fragment_layout and load innerView with markdown_card_view
-        View containerView = inflater.inflate(R.layout.card_view_fragment, vg, false);
-        ViewStub cardContainer = (ViewStub) containerView.findViewById(R.id.card_container);
-        cardContainer.setLayoutResource(R.layout.markdown_card_view);
-        View innerView = cardContainer.inflate();
+        View view = super.onCreateView(inflater, vg, savedInstanceState);
 
 
-        textView = (TextView) innerView.findViewById(R.id.text_content);
-        spinner = (LinearLayout) innerView.findViewById(R.id.progressBar);
-        errorView = (LinearLayout) innerView.findViewById(R.id.error_view);
-        retryButton = (Button) innerView.findViewById(R.id.retry_button);
+        textView = (TextView) view.findViewById(R.id.text_content);
+        spinner = (LinearLayout) view.findViewById(R.id.progressBar);
+        errorView = (LinearLayout) view.findViewById(R.id.error_view);
+        retryButton = (Button) view.findViewById(R.id.retry_button);
 
         try {
             markdownUrl = getArguments().getString("markdownUrl");
@@ -67,7 +63,12 @@ public class MarkDownCard extends Fragment {
         });
 
         setMarkdown(markdownUrl);
-        return containerView;
+        return view;
+    }
+
+    @Override
+    public int getCardLayoutResource() {
+        return R.layout.markdown_card_view;
     }
 
     class DownloadFileFromURL extends AsyncTask<String, String, String> {
