@@ -13,6 +13,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import rationalduos.atulsoori.nofucksgiven.R;
+import rationalduos.atulsoori.nofucksgiven.utils.AppConstants;
 
 /**
  * Created by ravio on 7/6/2016.
@@ -40,8 +41,15 @@ public abstract class GenericCard extends Fragment {
                     android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
                     clipboard.setPrimaryClip(clip);
                 }
-                Toast.makeText(getActivity().getBaseContext(),"Copied to Clipboard",
+                Toast.makeText(getActivity().getBaseContext(), AppConstants.COPY_MSG,
                         Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareCardData();
             }
         });
         int cardLayoutResource = getCardLayoutResource();
@@ -56,4 +64,6 @@ public abstract class GenericCard extends Fragment {
     public abstract int getCardLayoutResource();
 
     public abstract String getCopyString();
+
+    public abstract void shareCardData();
 }

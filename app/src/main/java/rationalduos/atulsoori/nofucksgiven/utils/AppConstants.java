@@ -38,4 +38,9 @@ public class AppConstants {
     public static final String CARD_TYPE_TEXT = "text";
     public static final String CARD_TYPE_MARKDOWN = "markdown";
 
+    /* Card View related */
+    public static String COPY_MSG = "Copied to Clipboard";
+    public static String SHARE_ACTIVITY_NAME = "Share on";
+    public static String SHARE_SUBJECT = "Shared using NoFucksGiven";
+
 }

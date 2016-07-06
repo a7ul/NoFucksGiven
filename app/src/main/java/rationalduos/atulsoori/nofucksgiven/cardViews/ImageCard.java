@@ -73,6 +73,11 @@ public class ImageCard extends GenericCard {
         return url;
     }
 
+    @Override
+    public void shareCardData() {
+        //TODO
+    }
+
     private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
         LinearLayout spinner;
         public DownloadImage(LinearLayout spinner){
