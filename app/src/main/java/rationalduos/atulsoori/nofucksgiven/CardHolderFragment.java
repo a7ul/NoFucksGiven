@@ -18,37 +18,15 @@ import rationalduos.atulsoori.nofucksgiven.cardViews.ImageCard;
 import rationalduos.atulsoori.nofucksgiven.cardViews.MarkDownCard;
 import rationalduos.atulsoori.nofucksgiven.cardViews.TextCard;
 import rationalduos.atulsoori.nofucksgiven.models.CardInfo;
+import rationalduos.atulsoori.nofucksgiven.utils.CardTransformer;
 
 import static rationalduos.atulsoori.nofucksgiven.utils.AppConstants.CARD_TYPE_IMAGE;
 import static rationalduos.atulsoori.nofucksgiven.utils.AppConstants.CARD_TYPE_MARKDOWN;
 import static rationalduos.atulsoori.nofucksgiven.utils.AppConstants.CARD_TYPE_TEXT;
 
+
 public class CardHolderFragment extends Fragment {
     ArrayList<CardInfo> listOfCards;
-
-    private ImageCard createImageCard(String Url) {
-        Bundle bundle = new Bundle();
-        bundle.putString("imageUrl", Url);
-        ImageCard mCard = new ImageCard();
-        mCard.setArguments(bundle);
-        return mCard;
-    }
-
-    private MarkDownCard createMarkDownCard(String Url) {
-        Bundle bundle = new Bundle();
-        bundle.putString("markdownUrl", Url);
-        MarkDownCard mkCard = new MarkDownCard();
-        mkCard.setArguments(bundle);
-        return mkCard;
-    }
-
-    private TextCard createTextCard(String textContent) {
-        Bundle bundle = new Bundle();
-        bundle.putString("textContent", textContent);
-        TextCard tCard = new TextCard();
-        tCard.setArguments(bundle);
-        return tCard;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
@@ -65,22 +43,19 @@ public class CardHolderFragment extends Fragment {
 
         DynamicPagerAdapter mDynamicPagerAdapter = new DynamicPagerAdapter(getChildFragmentManager());
 
-        for (CardInfo cardInfo : listOfCards) {
-            switch (cardInfo.getType()) {
-                case CARD_TYPE_TEXT:
-                    mDynamicPagerAdapter.addFragment(createTextCard(cardInfo.getData()));
-                    break;
-                case CARD_TYPE_IMAGE:
-                    mDynamicPagerAdapter.addFragment(createImageCard(cardInfo.getData()));
-                    break;
-                case CARD_TYPE_MARKDOWN:
-                    mDynamicPagerAdapter.addFragment(createMarkDownCard(cardInfo.getData()));
-                    break;
+        int maxPages = (listOfCards.size() > 5) ? 5 : listOfCards.size();
+
+        for(int i=0;i<listOfCards.size();++i){
+            try {
+                mDynamicPagerAdapter.addFragment(CardTransformer.cardInfoToFragment(listOfCards.get(i)));
+            } catch (Exception e) {
+                Log.e("NFG",Log.getStackTraceString(e));
             }
         }
 
         try {
             pager.setAdapter(mDynamicPagerAdapter);
+//            pager.addOnPageChangeListener(new customPageChangeListener(pager, mDynamicPagerAdapter));
 
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 pager.setPageTransformer(true, new RotateUpTransformer());
@@ -92,4 +67,37 @@ public class CardHolderFragment extends Fragment {
         return view;
     }
 
+}
+
+class customPageChangeListener implements ViewPager.OnPageChangeListener {
+
+    DynamicPagerAdapter pagerAdapter;
+    ViewPager pager;
+
+    customPageChangeListener(ViewPager pager, DynamicPagerAdapter pagerAdapter) {
+        this.pagerAdapter = pagerAdapter;
+        this.pager = pager;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        Log.d("NFG", "Page Selected " + String.valueOf(position));
+        int size = pagerAdapter.getCount();
+        if (position + 3 < size) {
+            pagerAdapter.addFragment(new ImageCard());
+        }
+        if (position - 3 >= 0) {
+            pagerAdapter.removeFragment(pager);
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
 }
