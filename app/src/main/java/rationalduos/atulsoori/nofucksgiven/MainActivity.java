@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,9 +20,10 @@ import java.util.ArrayList;
 import rationalduos.atulsoori.nofucksgiven.models.CardInfo;
 import rationalduos.atulsoori.nofucksgiven.utils.AppConstants;
 import rationalduos.atulsoori.nofucksgiven.utils.DatabaseHandler;
+import rationalduos.atulsoori.nofucksgiven.utils.HackyDrawerLayout;
 
 public class MainActivity extends AppCompatActivity {
-    private DrawerLayout drawerLayout;
+    private HackyDrawerLayout drawerLayout;
     private ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
     private DatabaseHandler dbHandler;
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         title = drawerTitle = getTitle();
         navStringsArray = new String[]{"General", "Images", "Text", "Favourites"};
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        drawerLayout = (HackyDrawerLayout) findViewById(R.id.drawerLayout);
         drawerList = (ListView) findViewById(R.id.drawerList);
         dbHandler = new DatabaseHandler(this);
 
@@ -123,7 +125,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void setTitle(CharSequence _title) {
         title = _title;
-        getSupportActionBar().setTitle(title);
+        try{
+            getSupportActionBar().setTitle(title);
+        }catch (Exception exception){
+            Log.e("NFG",Log.getStackTraceString(exception));
+        }
     }
 
     @Override
