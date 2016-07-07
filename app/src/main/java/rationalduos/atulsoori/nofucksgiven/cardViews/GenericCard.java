@@ -23,7 +23,6 @@ public abstract class GenericCard extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceState) {
         View containerView = inflater.inflate(R.layout.generic_card_fragment, vg, false);
-        Log.d("NFG","INFLATING CARD");
         Button shareButton = (Button) containerView.findViewById(R.id.share_button);
         Button copyButton = (Button) containerView.findViewById(R.id.copy_button);
         ToggleButton favToggle = (ToggleButton) containerView.findViewById(R.id.fav_toggle);

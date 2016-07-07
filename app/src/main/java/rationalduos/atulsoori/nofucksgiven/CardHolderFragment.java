@@ -36,7 +36,6 @@ public class CardHolderFragment extends Fragment {
 
         DynamicPagerAdapter mDynamicPagerAdapter = new DynamicPagerAdapter(getChildFragmentManager());
 
-
         for (int i = 0; (i < listOfCards.size()); ++i) {
             try {
                 mDynamicPagerAdapter.addFragment(CardTransformer.cardInfoToFragment(listOfCards.get(i)));

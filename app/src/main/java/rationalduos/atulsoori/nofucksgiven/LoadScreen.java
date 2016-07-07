@@ -88,9 +88,9 @@ class LoadRunner implements Runnable {
             String config_fname = config.getString(AppConstants.INDEX_CONFIGS_FILE);
             String config_md5 = config.getString(AppConstants.INDEX_CONFIGS_MD5);
             String cur_md5 = settings.getString(config_fname + "_md5", "00");
-            Log.d("NFG", "Config: " + config_fname);
-            Log.d("NFG", "Config md5: " + config_md5);
-            Log.d("NFG", "Current md5: " + cur_md5);
+//            Log.d("NFG", "Config: " + config_fname);
+//            Log.d("NFG", "Config md5: " + config_md5);
+//            Log.d("NFG", "Current md5: " + cur_md5);
             if (!cur_md5.equals(config_md5)) {
                 downloadFile(AppConstants.SERVER_URL + indexBasePath + config_fname, config_fname);
                 editor.putString(config_fname + "_md5", config_md5);
@@ -110,7 +110,6 @@ class LoadRunner implements Runnable {
 
             JSONObject configJson = new JsonReader(fis).getJson();
             List<CardInfo> listOfCards = getListOfCardsFromJson(config_name, configJson);
-            Log.d("NFG", listOfCards.toString());
             appDbHandler.addListOfFucks(listOfCards);
         }
     }
@@ -125,24 +124,20 @@ class LoadRunner implements Runnable {
         for (int dataIndex = 0; dataIndex < cardDataFromJsonList.length(); ++dataIndex) {
             JSONObject cardDataFromJson = cardDataFromJsonList.getJSONObject(dataIndex);
             String type;
-            String id;
             switch (config_name) {
                 case "images":
                     type = AppConstants.CARD_TYPE_IMAGE;
-                    id = "i" + dataIndex;
                     break;
                 case "texts":
                     type = AppConstants.CARD_TYPE_MARKDOWN;
-                    id = "t" + dataIndex;
                     break;
                 default:
                     type = null;
-                    id = null;
                     break;
             }
 
             try {
-                cardInfoList.add(getCardInfoFromCardJsonObject(id, type, cardDataFromJson, configBasePath));
+                cardInfoList.add(getCardInfoFromCardJsonObject(type, cardDataFromJson, configBasePath));
             } catch (Exception e) {
                 Log.e("NFG", Log.getStackTraceString(e));
             }
@@ -150,12 +145,13 @@ class LoadRunner implements Runnable {
         return cardInfoList;
     }
 
-    private CardInfo getCardInfoFromCardJsonObject(String id, String _type, JSONObject cardDataFromJson, String basePath) throws JSONException {
+    private CardInfo getCardInfoFromCardJsonObject(String _type, JSONObject cardDataFromJson, String basePath) throws JSONException {
 
         String name = "";
         String contributor = "";
         String data = null;
         String type = _type;
+        String id = null;
 
         try {
             name = cardDataFromJson.getString(AppConstants.CARD_JSON_NAME);
@@ -165,6 +161,12 @@ class LoadRunner implements Runnable {
         try {
             contributor = cardDataFromJson.getString(AppConstants.CARD_JSON_CONTRIBUTOR);
         } catch (Exception ignored) {
+        }
+
+        try {
+            id = cardDataFromJson.getString(AppConstants.CARD_JSON_ID);
+        } catch (Exception ignored) {
+            Log.d("NFG",Log.getStackTraceString(ignored));
         }
 
         try {
@@ -184,7 +186,7 @@ class LoadRunner implements Runnable {
         }
 
         if (data == null || type == null || id == null) {
-            throw new JSONException("Incorrect card Json data" + id + type + cardDataFromJson.toString());
+            throw new JSONException("Incorrect card Json data" + type + cardDataFromJson.toString());
         }
 
         return new CardInfo(id, name, contributor, type, data);
