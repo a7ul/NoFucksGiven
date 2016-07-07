@@ -150,6 +150,7 @@ class LoadRunner implements Runnable {
         String data = null;
         String type = _type;
         String id = null;
+        int favourite = 0;
 
         try {
             name = cardDataFromJson.getString(AppConstants.CARD_JSON_NAME);
@@ -158,6 +159,11 @@ class LoadRunner implements Runnable {
 
         try {
             contributor = cardDataFromJson.getString(AppConstants.CARD_JSON_CONTRIBUTOR);
+        } catch (Exception ignored) {
+        }
+
+        try {
+            favourite = cardDataFromJson.getInt(AppConstants.CARD_JSON_FAVOURITE);
         } catch (Exception ignored) {
         }
 
@@ -187,7 +193,7 @@ class LoadRunner implements Runnable {
             throw new JSONException("Incorrect card Json data" + type + cardDataFromJson.toString());
         }
 
-        return new CardInfo(id, name, contributor, type, data);
+        return new CardInfo(id, name, contributor, type, data,favourite);
     }
 
     private void downloadFile(String url, String fname) throws IOException {

@@ -27,7 +27,7 @@ public class TextCard extends GenericCard {
         textView = (TextView) view.findViewById(R.id.text_content);
 
         try {
-            textView.setText(getArguments().getString("textContent"));
+            textView.setText(getArguments().getString("cardContent"));
         } catch (Exception e) {
             Log.e("NFG",Log.getStackTraceString(e));
             textView.setText(R.string.no_text);

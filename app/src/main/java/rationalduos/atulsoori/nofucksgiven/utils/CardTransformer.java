@@ -17,25 +17,28 @@ import static rationalduos.atulsoori.nofucksgiven.utils.AppConstants.CARD_TYPE_T
  */
 public class CardTransformer {
 
-    private static ImageCard createImageCard(String Url) {
+    private static ImageCard createImageCard(String id ,String Url) {
         Bundle bundle = new Bundle();
-        bundle.putString("imageUrl", Url);
+        bundle.putString("cardContent", Url);
+        bundle.putString("cardId",id);
         ImageCard mCard = new ImageCard();
         mCard.setArguments(bundle);
         return mCard;
     }
 
-    private static MarkDownCard createMarkDownCard(String Url) {
+    private static MarkDownCard createMarkDownCard(String id ,String Url) {
         Bundle bundle = new Bundle();
-        bundle.putString("markdownUrl", Url);
+        bundle.putString("cardContent", Url);
+        bundle.putString("cardId",id);
         MarkDownCard mkCard = new MarkDownCard();
         mkCard.setArguments(bundle);
         return mkCard;
     }
 
-    private static TextCard createTextCard(String textContent) {
+    private static TextCard createTextCard(String id ,String textContent) {
         Bundle bundle = new Bundle();
-        bundle.putString("textContent", textContent);
+        bundle.putString("cardContent", textContent);
+        bundle.putString("cardId",id);
         TextCard tCard = new TextCard();
         tCard.setArguments(bundle);
         return tCard;
@@ -45,11 +48,11 @@ public class CardTransformer {
 
         switch (cardInfo.getType()) {
             case CARD_TYPE_TEXT:
-                return createTextCard(cardInfo.getData());
+                return createTextCard(cardInfo.getId(),cardInfo.getData());
             case CARD_TYPE_IMAGE:
-                return createImageCard(cardInfo.getData());
+                return createImageCard(cardInfo.getId(),cardInfo.getData());
             case CARD_TYPE_MARKDOWN:
-                return createMarkDownCard(cardInfo.getData());
+                return createMarkDownCard(cardInfo.getId(),cardInfo.getData());
             default:
                 throw new Exception("Unknown Card Type");
         }

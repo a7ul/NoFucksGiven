@@ -51,7 +51,7 @@ public class MarkDownCard extends GenericCard {
         retryButton = (Button) view.findViewById(R.id.retry_button);
 
         try {
-            markdownUrl = getArguments().getString("markdownUrl");
+            markdownUrl = getArguments().getString("cardContent");
         } catch (Exception e) {
             markdownUrl = "";
             Log.e("NFG", Log.getStackTraceString(e));

@@ -27,6 +27,7 @@ public class AppConstants {
     public static String CARD_JSON_URL = "url";
     public static String CARD_JSON_CONTRIBUTOR = "contributor";
     public static String CARD_JSON_ID = "id";
+    public static String CARD_JSON_FAVOURITE = "favourite";
 
     /* Shared preference stuff */
     public static String PREF_NAME = "noFucksPreference";

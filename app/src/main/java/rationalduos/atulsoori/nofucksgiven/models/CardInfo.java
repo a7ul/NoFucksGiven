@@ -12,13 +12,15 @@ public class CardInfo implements Parcelable {
     private String contributor;
     private String type;
     private String data;
+    private int favourites;
 
-    public CardInfo(String _id, String _name, String _contributor, String _type, String _data) {
+    public CardInfo(String _id, String _name, String _contributor, String _type, String _data,int _favourites) {
         id = _id;
         name = _name;
         contributor = _contributor;
         type = _type;
         data = _data;
+        favourites = _favourites;
     }
 
     @Override
@@ -46,6 +48,10 @@ public class CardInfo implements Parcelable {
         return type;
     }
 
+    public int getFavourites() {
+        return favourites;
+    }
+
     public CardInfo(Parcel in) {
         super();
         readFromParcel(in);
@@ -69,6 +75,7 @@ public class CardInfo implements Parcelable {
         contributor = in.readString();
         type = in.readString();
         data = in.readString();
+        favourites = in.readInt();
     }
 
     public int describeContents() {
@@ -81,5 +88,6 @@ public class CardInfo implements Parcelable {
         dest.writeString(contributor);
         dest.writeString(type);
         dest.writeString(data);
+        dest.writeInt(favourites);
     }
 }

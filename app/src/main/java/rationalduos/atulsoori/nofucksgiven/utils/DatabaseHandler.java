@@ -17,7 +17,7 @@ import rationalduos.atulsoori.nofucksgiven.models.CardInfo;
  */
 public class DatabaseHandler extends SQLiteOpenHelper {
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Database Name
     private static final String DATABASE_NAME = "NoFucksGivenDb";
@@ -31,6 +31,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_CONTRIBUTOR = "contributor";
     private static final String KEY_TYPE = "type";
     private static final String KEY_DATA = "data";
+    private static final String KEY_FAVOURITE = "favourite";
+
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -41,7 +43,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_FUCKS_TABLE = "CREATE TABLE " + TABLE_FUCKS + "("
                 + KEY_ID + " TEXT PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_CONTRIBUTOR + " TEXT," + KEY_TYPE + " TEXT," + KEY_DATA + " TEXT" + ")";
+                + KEY_CONTRIBUTOR + " TEXT," + KEY_TYPE + " TEXT," + KEY_DATA + " TEXT," + KEY_FAVOURITE + " INT DEFAULT 0" + ")";
         db.execSQL(CREATE_FUCKS_TABLE);
     }
 
@@ -64,6 +66,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_CONTRIBUTOR, f.getContributor());
         values.put(KEY_TYPE, f.getType());
         values.put(KEY_DATA, f.getData());
+
         // Inserting Row
         db.insert(TABLE_FUCKS, null, values);
         db.close(); // Closing database connection
@@ -78,6 +81,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             values.put(KEY_CONTRIBUTOR, f.getContributor());
             values.put(KEY_TYPE, f.getType());
             values.put(KEY_DATA, f.getData());
+
             // Inserting Row
             db.insert(TABLE_FUCKS, null, values);
         }
@@ -89,7 +93,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_FUCKS,
-                new String[]{KEY_ID, KEY_NAME, KEY_CONTRIBUTOR, KEY_TYPE, KEY_DATA},
+                new String[]{KEY_ID, KEY_NAME, KEY_CONTRIBUTOR, KEY_TYPE, KEY_DATA,KEY_FAVOURITE},
                 KEY_ID + "=?",
                 new String[]{id}, null, null, null, null);
 
@@ -97,7 +101,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         if (cursor != null) {
             cursor.moveToFirst();
-            f = new CardInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+            f = new CardInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5));
 
             cursor.close();
         }
@@ -116,7 +120,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                CardInfo cardInfo = new CardInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+                CardInfo cardInfo = new CardInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5));
                 // Adding cardInfo to list
                 cardInfoList.add(cardInfo);
             } while (cursor.moveToNext());
@@ -136,7 +140,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                CardInfo cardInfo = new CardInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+                CardInfo cardInfo = new CardInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5));
                 // Adding cardInfo to list
                 cardInfoList.add(cardInfo);
             } while (cursor.moveToNext());
@@ -168,6 +172,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // updating row
         int i = db.update(TABLE_FUCKS, values, KEY_ID + " = ?",
                 new String[]{f.getId()});
+        db.close();
+        return i;
+    }
+
+    public int updateFuckFav(String fId, int favValue){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_FAVOURITE, favValue);
+        int i = db.update(TABLE_FUCKS, values, KEY_ID + " = ?",
+                new String[]{fId});
         db.close();
         return i;
     }
