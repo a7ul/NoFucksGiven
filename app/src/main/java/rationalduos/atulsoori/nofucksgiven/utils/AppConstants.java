@@ -44,4 +44,6 @@ public class AppConstants {
     public static String SHARE_ACTIVITY_NAME = "Share on";
     public static String SHARE_SUBJECT = "Shared using NoFucksGiven";
 
+    public static String APP_DIRECTORY = "noFucksDir";
+    public static String TEMP_IMG_FILE = "temp_share_img.jpg";
 }
