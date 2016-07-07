@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import rationalduos.atulsoori.nofucksgiven.adapters.DynamicPagerAdapter;
 import rationalduos.atulsoori.nofucksgiven.models.CardInfo;
 import rationalduos.atulsoori.nofucksgiven.utils.CardTransformer;
+import rationalduos.atulsoori.nofucksgiven.utils.HackyViewPager;
 
 
 public class CardHolderFragment extends Fragment {
@@ -25,7 +26,7 @@ public class CardHolderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.card_holder_fragment_layout, vg, false);
-        ViewPager pager = (ViewPager) view.findViewById(R.id.viewPager);
+        HackyViewPager pager = (HackyViewPager) view.findViewById(R.id.viewPager);
 
         try {
             listOfCards = getArguments().getParcelableArrayList("cardsList");

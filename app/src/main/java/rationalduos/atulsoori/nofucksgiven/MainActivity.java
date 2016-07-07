@@ -3,7 +3,6 @@ package rationalduos.atulsoori.nofucksgiven;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
     private CardHolderFragment getCardHolderBasedOnCategory(int index) {
 
-        //TODO Have to load only 5 fragments at a time
         switch (index) {
             case 0: //General
                 return getCardHolderFromList((ArrayList<CardInfo>) dbHandler.getAllFucks());
