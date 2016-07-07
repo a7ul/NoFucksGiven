@@ -5,4 +5,4 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:padding="15dp"
-    android:textColor="@android:color/darker_gray" />
+    android:textColor="@android:color/white" />

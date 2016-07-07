@@ -17,7 +17,7 @@
         android:layout_gravity="start"
         android:background="#111111"
         android:choiceMode="singleChoice"
-        android:divider="@android:color/white"
+        android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp" />
 
 </rationalduos.atulsoori.nofucksgiven.utils.HackyDrawerLayout>
