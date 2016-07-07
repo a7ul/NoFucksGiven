@@ -31,7 +31,6 @@ public class LoadScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_screen);
-
         dbHandler = new DatabaseHandler(this);
 
         Thread loader = new Thread(new LoadRunner(this));
