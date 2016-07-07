@@ -45,6 +45,11 @@ public class AppConstants {
     public static String SHARE_ACTIVITY_NAME = "Share on";
     public static String SHARE_SUBJECT = "Shared using NoFucksGiven";
 
+    /* Share image related */
     public static String APP_DIRECTORY = "noFucksDir";
     public static String TEMP_IMG_FILE = "temp_share_img.jpg";
+
+    /* Launch screen internet messages */
+    public static String NO_INTERNET_WARN = "No Internet. Only text cards are available.";
+    public static String NO_INTERNET_ERROR = "First time usage requires Internet connectivity";
 }

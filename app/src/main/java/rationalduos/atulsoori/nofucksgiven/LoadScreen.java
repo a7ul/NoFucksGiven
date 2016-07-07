@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,6 +46,7 @@ public class LoadScreen extends AppCompatActivity {
 class LoadRunner implements Runnable {
     private LoadScreen activity;
     private DatabaseHandler appDbHandler;
+    private Boolean isAppInitialized = false;
 
     public LoadRunner(LoadScreen actvt) {
         this.activity = actvt;
@@ -54,21 +56,37 @@ class LoadRunner implements Runnable {
     @Override
     public void run() {
         try {
+            SharedPreferences settings = activity.getSharedPreferences(AppConstants.PREF_NAME, 0);
+            isAppInitialized = settings.getBoolean(AppConstants.PREF_INITIALIZED, false);
+
             // Get index json
             downloadFile(AppConstants.SERVER_URL + AppConstants.INDEX_FILE, AppConstants.INDEX_FILE); // added by atul
             JSONObject indexJson = new JsonReader(activity.openFileInput(AppConstants.INDEX_FILE)).getJson();
-            SharedPreferences settings = activity.getSharedPreferences(AppConstants.PREF_NAME, 0);
-
-            Boolean isAppInitialized = settings.getBoolean(AppConstants.PREF_INITIALIZED, false);
-            Log.d("NFG", indexJson.toString());
             verifyConfigs(indexJson, settings);
+
             Intent i = new Intent(activity.getApplicationContext(), MainActivity.class);
             activity.startActivity(i);
             activity.finish();
         } catch (IOException e) {
             //TODO
             // No internet connection?
-            Log.e("NFG", e.getMessage());
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    if (isAppInitialized) {
+                        Toast.makeText(activity,AppConstants.NO_INTERNET_WARN,
+                                                            Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(activity.getApplicationContext(), MainActivity.class);
+                        activity.startActivity(i);
+                        activity.finish();
+                    } else {
+                        Toast.makeText(activity,AppConstants.NO_INTERNET_ERROR,
+                                                            Toast.LENGTH_LONG).show();
+                        activity.finish();
+                    }
+                }
+            });
         } catch (JSONException e) {
             //TODO
             // What's this?
