@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 import rationalduos.atulsoori.nofucksgiven.adapters.DynamicPagerAdapter;
 import rationalduos.atulsoori.nofucksgiven.models.CardInfo;
-import rationalduos.atulsoori.nofucksgiven.utils.AppConstants;
 import rationalduos.atulsoori.nofucksgiven.utils.CardTransformer;
 
 
@@ -38,9 +37,7 @@ public class CardHolderFragment extends Fragment {
         DynamicPagerAdapter mDynamicPagerAdapter = new DynamicPagerAdapter(getChildFragmentManager());
 
 
-        for (int i = 0; (i < listOfCards.size()
-//                && i < AppConstants.MAX_PAGES_ON_PAGER
-        ); ++i) {
+        for (int i = 0; (i < listOfCards.size()); ++i) {
             try {
                 mDynamicPagerAdapter.addFragment(CardTransformer.cardInfoToFragment(listOfCards.get(i)));
             } catch (Exception e) {
@@ -50,8 +47,6 @@ public class CardHolderFragment extends Fragment {
 
         try {
             pager.setAdapter(mDynamicPagerAdapter);
-
-//            pager.addOnPageChangeListener(new customPageChangeListener(pager, mDynamicPagerAdapter, listOfCards));
 
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 pager.setPageTransformer(true, new RotateUpTransformer());
@@ -63,41 +58,4 @@ public class CardHolderFragment extends Fragment {
         return view;
     }
 
-}
-
-class customPageChangeListener implements ViewPager.OnPageChangeListener {
-
-    DynamicPagerAdapter pagerAdapter;
-    ViewPager pager;
-    ArrayList<CardInfo> listOfCards;
-    private int currentListOfCardsPosition = 0;
-    private int previousPosition = 0;
-    private int CENTER_PAGE = (AppConstants.MAX_PAGES_ON_PAGER / 2) + 1;
-    private int MAX_DISTANCE_FROM_CENTER = AppConstants.MAX_PAGES_ON_PAGER - CENTER_PAGE;
-
-    customPageChangeListener(ViewPager pager, DynamicPagerAdapter pagerAdapter, ArrayList<CardInfo> listOfCards) {
-        this.pagerAdapter = pagerAdapter;
-        this.pager = pager;
-        this.listOfCards = listOfCards;
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        if (previousPosition > position) {
-            --currentListOfCardsPosition;
-        } else {
-            ++currentListOfCardsPosition;
-            Log.d("NFG"," position:"+position+" currentListOfCardsPosition:"+currentListOfCardsPosition);
-        }
-        previousPosition = position;
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
 }
