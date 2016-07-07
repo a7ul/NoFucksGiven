@@ -60,7 +60,7 @@ class LoadRunner implements Runnable {
             SharedPreferences settings = activity.getSharedPreferences(AppConstants.PREF_NAME, 0);
 
             Boolean isAppInitialized = settings.getBoolean(AppConstants.PREF_INITIALIZED, false);
-            Log.d("NFG", indexJson.toString());
+//            Log.d("NFG", indexJson.toString());
             verifyConfigs(indexJson, settings);
             Intent i = new Intent(activity.getApplicationContext(), MainActivity.class);
             activity.startActivity(i);
@@ -100,7 +100,6 @@ class LoadRunner implements Runnable {
         editor.apply();
 
         //  Following block is just for testing
-        appDbHandler.deleteAllFucks();
         for (int i = 0; i < configsArray.length(); i++) {
             JSONObject config = configsArray.getJSONObject(i);
             String config_fname = config.getString(AppConstants.INDEX_CONFIGS_FILE);
@@ -109,7 +108,7 @@ class LoadRunner implements Runnable {
 
             JSONObject configJson = new JsonReader(fis).getJson();
             List<CardInfo> listOfCards = getListOfCardsFromJson(config_name, configJson);
-            appDbHandler.addListOfFucks(listOfCards);
+            appDbHandler.updateOrAddListOfFucks(listOfCards);
         }
     }
 
