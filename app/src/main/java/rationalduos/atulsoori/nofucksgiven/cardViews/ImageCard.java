@@ -96,6 +96,7 @@ public class ImageCard extends GenericCard {
         Context context = getContext();
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("image/jpeg");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT,AppConstants.SHARE_SUBJECT);
 
         /*
          Create a dir in app's internal files dir, We will give read permissions on this dir
@@ -150,8 +151,11 @@ public class ImageCard extends GenericCard {
 
             String imageURL = URL[0];
             try {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inPreferredConfig = Bitmap.Config.RGB_565;
+                options.inDither = true;
                 InputStream input = new java.net.URL(imageURL).openStream();
-                imageBitmap = BitmapFactory.decodeStream(input);
+                imageBitmap = BitmapFactory.decodeStream(input,null,options);
             } catch (Exception e) {
                 Log.e("NFG", Log.getStackTraceString(e));
             }
