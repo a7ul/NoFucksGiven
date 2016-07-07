@@ -28,10 +28,11 @@ public class AppConstants {
     public static String CARD_JSON_CONTRIBUTOR = "contributor";
 
     /* Shared preference stuff */
-
     public static String PREF_NAME = "noFucksPreference";
     public static String PREF_INITIALIZED = "is_initialized";
 
+    /*Card Holder Settings*/
+    public static int MAX_PAGES_ON_PAGER = 5; //SHOULD BE AN ODD NUMBER GREATER THAN OR EQUAL TO 5
 
     /* Card Types */
     public static final String CARD_TYPE_IMAGE = "image";
