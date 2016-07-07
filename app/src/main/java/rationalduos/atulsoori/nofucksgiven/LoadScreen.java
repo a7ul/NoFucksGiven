@@ -118,7 +118,6 @@ class LoadRunner implements Runnable {
         editor.apply();
 
         //  Following block is just for testing
-        appDbHandler.deleteAllFucks();
         for (int i = 0; i < configsArray.length(); i++) {
             JSONObject config = configsArray.getJSONObject(i);
             String config_fname = config.getString(AppConstants.INDEX_CONFIGS_FILE);
@@ -127,7 +126,7 @@ class LoadRunner implements Runnable {
 
             JSONObject configJson = new JsonReader(fis).getJson();
             List<CardInfo> listOfCards = getListOfCardsFromJson(config_name, configJson);
-            appDbHandler.addListOfFucks(listOfCards);
+            appDbHandler.updateOrAddListOfFucks(listOfCards);
         }
     }
 

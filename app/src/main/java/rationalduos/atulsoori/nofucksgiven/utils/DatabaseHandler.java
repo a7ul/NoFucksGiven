@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,9 +69,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    public void addListOfFucks(List<CardInfo> cardInfoList){
+    public void addListOfFucks(List<CardInfo> cardInfoList) {
         SQLiteDatabase db = this.getWritableDatabase();
-        for(CardInfo f: cardInfoList){
+        for (CardInfo f : cardInfoList) {
             ContentValues values = new ContentValues();
             values.put(KEY_ID, f.getId());
             values.put(KEY_NAME, f.getName());
@@ -158,14 +159,38 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(KEY_ID, f.getId());
         values.put(KEY_NAME, f.getName());
         values.put(KEY_CONTRIBUTOR, f.getContributor());
         values.put(KEY_TYPE, f.getType());
         values.put(KEY_DATA, f.getData());
 
         // updating row
-        return db.update(TABLE_FUCKS, values, KEY_ID + " = ?",
+        int i = db.update(TABLE_FUCKS, values, KEY_ID + " = ?",
                 new String[]{f.getId()});
+        db.close();
+        return i;
+    }
+
+    public void updateOrAddListOfFucks(List<CardInfo> cardInfoList) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        for (CardInfo f : cardInfoList) {
+
+            ContentValues values = new ContentValues();
+            values.put(KEY_ID, f.getId());
+            values.put(KEY_NAME, f.getName());
+            values.put(KEY_CONTRIBUTOR, f.getContributor());
+            values.put(KEY_TYPE, f.getType());
+            values.put(KEY_DATA, f.getData());
+
+            // updating row
+            int i = db.update(TABLE_FUCKS, values, KEY_ID + " = ?",
+                    new String[]{f.getId()});
+            if (i == 0) {
+                db.insert(TABLE_FUCKS, null, values);
+            }
+        }
+        db.close();
     }
 
     // Deleting single cardInfo
@@ -176,7 +201,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteAllFucks(){
+    public void deleteAllFucks() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_FUCKS, null, null);
         db.close();
