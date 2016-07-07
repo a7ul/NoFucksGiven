@@ -3,11 +3,13 @@ package rationalduos.atulsoori.nofucksgiven.utils;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import rationalduos.atulsoori.nofucksgiven.cardViews.AboutUsFragment;
 import rationalduos.atulsoori.nofucksgiven.cardViews.ImageCard;
 import rationalduos.atulsoori.nofucksgiven.cardViews.MarkDownCard;
 import rationalduos.atulsoori.nofucksgiven.cardViews.TextCard;
 import rationalduos.atulsoori.nofucksgiven.models.CardInfo;
 
+import static rationalduos.atulsoori.nofucksgiven.utils.AppConstants.CARD_TYPE_ABOUT_US;
 import static rationalduos.atulsoori.nofucksgiven.utils.AppConstants.CARD_TYPE_IMAGE;
 import static rationalduos.atulsoori.nofucksgiven.utils.AppConstants.CARD_TYPE_MARKDOWN;
 import static rationalduos.atulsoori.nofucksgiven.utils.AppConstants.CARD_TYPE_TEXT;
@@ -53,6 +55,8 @@ public class CardTransformer {
                 return createImageCard(cardInfo.getId(),cardInfo.getData());
             case CARD_TYPE_MARKDOWN:
                 return createMarkDownCard(cardInfo.getId(),cardInfo.getData());
+            case CARD_TYPE_ABOUT_US:
+                return new AboutUsFragment();
             default:
                 throw new Exception("Unknown Card Type");
         }

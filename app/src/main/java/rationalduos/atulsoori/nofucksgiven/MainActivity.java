@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence drawerTitle;
     private CharSequence title;
     private FragmentManager fragmentManager;
-    private String[] navStringsArray;
 
 
     private CardHolderFragment getCardHolderFromList(ArrayList<CardInfo> cardsList) {
@@ -41,20 +40,24 @@ public class MainActivity extends AppCompatActivity {
         return cardHolder;
     }
 
-    private CardHolderFragment getCardHolderBasedOnCategory(int index) {
+    private CardHolderFragment getCardHolderBasedOnCategory(String category) {
 
-        switch (index) {
-            case 0: //General
+        switch (category) {
+            case AppConstants.NAVIGATION_GENERAL: //General
                 return getCardHolderFromList((ArrayList<CardInfo>) dbHandler.getAllFucks());
-            case 1: //Images
+            case AppConstants.NAVIGATION_IMAGES: //Images
                 return getCardHolderFromList((ArrayList<CardInfo>) dbHandler.getAllFucksOfType(AppConstants.CARD_TYPE_IMAGE));
-            case 2: //Text
+            case AppConstants.NAVIGATION_TEXTS: //Text
                 ArrayList<CardInfo> listOfCards = new ArrayList<>();
                 listOfCards.addAll(dbHandler.getAllFucksOfType(AppConstants.CARD_TYPE_TEXT));
                 listOfCards.addAll(dbHandler.getAllFucksOfType(AppConstants.CARD_TYPE_MARKDOWN));
                 return getCardHolderFromList(listOfCards);
-            case 3: //Favourites
+            case AppConstants.NAVIGATION_FAVOURITES: //Favourites
                 return getCardHolderFromList((ArrayList<CardInfo>) dbHandler.getAllFavouriteFucks());
+            case AppConstants.NAVIGATION_ABOUT_US:
+                ArrayList<CardInfo> cardList = new ArrayList<>();
+                cardList.add(new CardInfo(null,null,null,AppConstants.CARD_TYPE_ABOUT_US,null,0));
+                return getCardHolderFromList(cardList);
              default:
                 return null;
         }
@@ -68,16 +71,16 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
         title = drawerTitle = getTitle();
-        navStringsArray = new String[]{"General", "Images", "Text", "Favourites"};
         drawerLayout = (HackyDrawerLayout) findViewById(R.id.drawerLayout);
         drawerList = (ListView) findViewById(R.id.drawerList);
         dbHandler = new DatabaseHandler(this);
 
-        drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, navStringsArray));
+        drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, AppConstants.NAVIGATION_ITEMS));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fragmentManager.beginTransaction().replace(R.id.frameContainer, getCardHolderBasedOnCategory(0)).commit(); //Load General CardHolder
+        fragmentManager.beginTransaction().replace(R.id.frameContainer,
+                getCardHolderBasedOnCategory(AppConstants.NAVIGATION_GENERAL)).commit(); //Load General CardHolder
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer) {
             public void onDrawerClosed(View view) {
@@ -112,11 +115,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void selectItem(int position) {
-        fragmentManager.beginTransaction().replace(R.id.frameContainer, getCardHolderBasedOnCategory(position)).commit();
+        String category = AppConstants.NAVIGATION_ITEMS[position];
+        fragmentManager.beginTransaction().replace(R.id.frameContainer, getCardHolderBasedOnCategory(category)).commit();
 
         // Update Title on action bar
         drawerList.setItemChecked(position, true);
-        setTitle(navStringsArray[position]);
+        setTitle(AppConstants.NAVIGATION_ITEMS[position]);
         drawerLayout.closeDrawer(drawerList);
     }
 

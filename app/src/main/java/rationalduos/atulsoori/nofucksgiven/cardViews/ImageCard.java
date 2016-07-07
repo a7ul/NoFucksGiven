@@ -89,6 +89,9 @@ public class ImageCard extends GenericCard {
 
     @Override
     public void shareCardData() {
+        if (imageBitmap == null){
+            return;
+        }
         /*
         Saves image to internal files dir and use content
         provider to share image

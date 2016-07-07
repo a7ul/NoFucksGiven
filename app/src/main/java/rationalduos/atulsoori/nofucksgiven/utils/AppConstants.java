@@ -40,6 +40,7 @@ public class AppConstants {
     public static final String CARD_TYPE_IMAGE = "image";
     public static final String CARD_TYPE_TEXT = "text";
     public static final String CARD_TYPE_MARKDOWN = "markdown";
+    public static final String CARD_TYPE_ABOUT_US = "about us";
 
     /* Card View related */
     public static String COPY_MSG = "Copied to Clipboard";
@@ -53,4 +54,18 @@ public class AppConstants {
     /* Launch screen internet messages */
     public static String NO_INTERNET_WARN = "No Internet. Only text cards are available.";
     public static String NO_INTERNET_ERROR = "First time usage requires Internet connectivity";
+
+    /* Navigation drawer */
+    public final static String NAVIGATION_GENERAL = "General";
+    public final static String NAVIGATION_IMAGES = "Images";
+    public final static String NAVIGATION_TEXTS = "Text";
+    public final static String NAVIGATION_FAVOURITES = "Favourites";
+    public final static String NAVIGATION_ABOUT_US = "About us";
+    public final static String[] NAVIGATION_ITEMS = {
+            NAVIGATION_GENERAL,
+            NAVIGATION_TEXTS,
+            NAVIGATION_IMAGES,
+            NAVIGATION_FAVOURITES,
+            NAVIGATION_ABOUT_US
+    };
 }
