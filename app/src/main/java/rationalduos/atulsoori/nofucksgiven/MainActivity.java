@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 listOfCards.addAll(dbHandler.getAllFucksOfType(AppConstants.CARD_TYPE_MARKDOWN));
                 return getCardHolderFromList(listOfCards);
             case 3: //Favourites
-                return new CardHolderFragment(); //TODO FAVOURITES
+                return getCardHolderFromList((ArrayList<CardInfo>) dbHandler.getAllFavouriteFucks());
              default:
                 return null;
         }

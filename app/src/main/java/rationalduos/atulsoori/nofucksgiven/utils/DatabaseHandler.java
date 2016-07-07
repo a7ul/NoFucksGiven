@@ -221,4 +221,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public List<CardInfo> getAllFavouriteFucks() {
+        List<CardInfo> cardInfoList = new ArrayList<>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_FUCKS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery + " WHERE " + KEY_FAVOURITE + " = 1",null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                CardInfo cardInfo = new CardInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5));
+                // Adding cardInfo to list
+                cardInfoList.add(cardInfo);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return cardInfoList;
+    }
 }
