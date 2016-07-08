@@ -16,8 +16,8 @@ public class AboutUsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.about_us, vg, false);
-        WebView wv = (WebView) view.findViewById(R.id.web_view_gif);
-        wv.loadUrl("file:///android_asset/gif_webview.html");
+//        WebView wv = (WebView) view.findViewById(R.id.web_view_gif);
+//        wv.loadUrl("file:///android_asset/gif_webview.html");
         return view;
     }
 }
