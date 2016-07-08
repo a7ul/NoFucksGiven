@@ -37,10 +37,11 @@ public class AppConstants {
     public static int MAX_PAGES_ON_PAGER = 5; //SHOULD BE AN ODD NUMBER GREATER THAN OR EQUAL TO 5
 
     /* Card Types */
-    public static final String CARD_TYPE_IMAGE = "image";
-    public static final String CARD_TYPE_TEXT = "text";
-    public static final String CARD_TYPE_MARKDOWN = "markdown";
-    public static final String CARD_TYPE_ABOUT_US = "about us";
+    public static final int CARD_TYPE_INVALID = -1;
+    public static final int CARD_TYPE_IMAGE = 1;
+    public static final int CARD_TYPE_TEXT = 2;
+    public static final int CARD_TYPE_TEXT_URL = 3;
+    public static final int CARD_TYPE_ABOUT_US = 4;
 
     /* Card View related */
     public static String COPY_MSG = "Copied to Clipboard";

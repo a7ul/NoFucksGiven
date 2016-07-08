@@ -35,7 +35,7 @@ public abstract class GenericCard extends Fragment {
         dbHandler = new DatabaseHandler(getContext());
 
         try {
-            cardId = getArguments().getString("cardId");
+            cardId = ((CardInfo)getArguments().getParcelable("cardInfo")).getId();
         } catch (Exception e) {
             Log.e("NFG", Log.getStackTraceString(e));
         }
