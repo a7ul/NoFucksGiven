@@ -16,7 +16,9 @@ import com.facebook.stetho.Stetho;
 
 import java.util.ArrayList;
 
+import rationalduos.atulsoori.nofucksgiven.adapters.NavDrawerListAdapter;
 import rationalduos.atulsoori.nofucksgiven.models.CardInfo;
+import rationalduos.atulsoori.nofucksgiven.models.NavDrawerItem;
 import rationalduos.atulsoori.nofucksgiven.utils.AppConstants;
 import rationalduos.atulsoori.nofucksgiven.utils.DatabaseHandler;
 import rationalduos.atulsoori.nofucksgiven.utils.HackyDrawerLayout;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence drawerTitle;
     private CharSequence title;
     private FragmentManager fragmentManager;
+    private ArrayList<NavDrawerItem> navDrawerItems;
 
 
     private CardHolderFragment getCardHolderFromList(ArrayList<CardInfo> cardsList) {
@@ -69,13 +72,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Stetho.initializeWithDefaults(this);
 
+        dbHandler = new DatabaseHandler(this);
         fragmentManager = getSupportFragmentManager();
         title = drawerTitle = getTitle();
+
         drawerLayout = (HackyDrawerLayout) findViewById(R.id.drawerLayout);
         drawerList = (ListView) findViewById(R.id.drawerList);
-        dbHandler = new DatabaseHandler(this);
 
-        drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, AppConstants.NAVIGATION_ITEMS));
+        navDrawerItems = new ArrayList<NavDrawerItem>();
+
+        // adding nav drawer items to array
+        // Home
+        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[0], android.R.drawable.sym_def_app_icon));
+        // Find People
+        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[1], android.R.drawable.sym_def_app_icon));
+        // Photos
+        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[2], android.R.drawable.sym_def_app_icon));
+        // Communities, Will add a counter here
+        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[3], android.R.drawable.sym_def_app_icon));
+        // Pages
+        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[4], android.R.drawable.sym_def_app_icon));
+
+
+        drawerList.setAdapter(new NavDrawerListAdapter(getApplicationContext(),
+                navDrawerItems));
+
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
