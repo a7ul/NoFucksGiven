@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence drawerTitle;
     private CharSequence title;
     private FragmentManager fragmentManager;
+    private int activeDrawerItemPosition;
 
 
     private CardHolderFragment getCardHolderFromList(ArrayList<CardInfo> cardsList) {
@@ -122,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         drawerList.setItemChecked(position, true);
         setTitle(AppConstants.NAVIGATION_ITEMS[position]);
         drawerLayout.closeDrawer(drawerList);
+        activeDrawerItemPosition = position;
     }
 
     @Override
@@ -144,6 +146,19 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        //save current item index
+        savedInstanceState.putInt("currentNavItem",activeDrawerItemPosition);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        //have the activity switch to nav item index
+        int pos = savedInstanceState.getInt("currentNavItem");
+        selectItem(pos);
     }
 
 }
