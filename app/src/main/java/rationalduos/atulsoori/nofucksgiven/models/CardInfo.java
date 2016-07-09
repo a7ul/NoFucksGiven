@@ -10,11 +10,11 @@ public class CardInfo implements Parcelable {
     private String id;
     private String name;
     private String contributor;
-    private String type;
+    private int type;
     private String data;
     private int favourites;
 
-    public CardInfo(String _id, String _name, String _contributor, String _type, String _data,int _favourites) {
+    public CardInfo(String _id, String _name, String _contributor, int _type, String _data,int _favourites) {
         id = _id;
         name = _name;
         contributor = _contributor;
@@ -44,7 +44,7 @@ public class CardInfo implements Parcelable {
         return name;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
@@ -73,7 +73,7 @@ public class CardInfo implements Parcelable {
         id = in.readString();
         name = in.readString();
         contributor = in.readString();
-        type = in.readString();
+        type = in.readInt();
         data = in.readString();
         favourites = in.readInt();
     }
@@ -86,7 +86,7 @@ public class CardInfo implements Parcelable {
         dest.writeString(id);
         dest.writeString(name);
         dest.writeString(contributor);
-        dest.writeString(type);
+        dest.writeInt(type);
         dest.writeString(data);
         dest.writeInt(favourites);
     }

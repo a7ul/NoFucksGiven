@@ -2,16 +2,16 @@ package rationalduos.atulsoori.nofucksgiven.utils;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import rationalduos.atulsoori.nofucksgiven.cardViews.AboutUsFragment;
 import rationalduos.atulsoori.nofucksgiven.cardViews.ImageCard;
 import rationalduos.atulsoori.nofucksgiven.cardViews.MarkDownCard;
-import rationalduos.atulsoori.nofucksgiven.cardViews.TextCard;
 import rationalduos.atulsoori.nofucksgiven.models.CardInfo;
 
 import static rationalduos.atulsoori.nofucksgiven.utils.AppConstants.CARD_TYPE_ABOUT_US;
 import static rationalduos.atulsoori.nofucksgiven.utils.AppConstants.CARD_TYPE_IMAGE;
-import static rationalduos.atulsoori.nofucksgiven.utils.AppConstants.CARD_TYPE_MARKDOWN;
+import static rationalduos.atulsoori.nofucksgiven.utils.AppConstants.CARD_TYPE_TEXT_URL;
 import static rationalduos.atulsoori.nofucksgiven.utils.AppConstants.CARD_TYPE_TEXT;
 
 /**
@@ -19,42 +19,32 @@ import static rationalduos.atulsoori.nofucksgiven.utils.AppConstants.CARD_TYPE_T
  */
 public class CardTransformer {
 
-    private static ImageCard createImageCard(String id ,String Url) {
+    private static ImageCard createImageCard(CardInfo card) {
         Bundle bundle = new Bundle();
-        bundle.putString("cardContent", Url);
-        bundle.putString("cardId",id);
+        bundle.putParcelable("cardInfo",card);
         ImageCard mCard = new ImageCard();
         mCard.setArguments(bundle);
         return mCard;
     }
 
-    private static MarkDownCard createMarkDownCard(String id ,String Url) {
+    private static MarkDownCard createMarkDownCard(CardInfo card) {
         Bundle bundle = new Bundle();
-        bundle.putString("cardContent", Url);
-        bundle.putString("cardId",id);
+        bundle.putParcelable("cardInfo",card);
         MarkDownCard mkCard = new MarkDownCard();
         mkCard.setArguments(bundle);
         return mkCard;
-    }
-
-    private static TextCard createTextCard(String id ,String textContent) {
-        Bundle bundle = new Bundle();
-        bundle.putString("cardContent", textContent);
-        bundle.putString("cardId",id);
-        TextCard tCard = new TextCard();
-        tCard.setArguments(bundle);
-        return tCard;
     }
 
     public static Fragment cardInfoToFragment(CardInfo cardInfo) throws Exception {
 
         switch (cardInfo.getType()) {
             case CARD_TYPE_TEXT:
-                return createTextCard(cardInfo.getId(),cardInfo.getData());
+                Log.d("NFG","Card type text");
+                return createMarkDownCard(cardInfo);
             case CARD_TYPE_IMAGE:
-                return createImageCard(cardInfo.getId(),cardInfo.getData());
-            case CARD_TYPE_MARKDOWN:
-                return createMarkDownCard(cardInfo.getId(),cardInfo.getData());
+                return createImageCard(cardInfo);
+            case CARD_TYPE_TEXT_URL:
+                return createMarkDownCard(cardInfo);
             case CARD_TYPE_ABOUT_US:
                 return new AboutUsFragment();
             default:

@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import rationalduos.atulsoori.nofucksgiven.R;
+import rationalduos.atulsoori.nofucksgiven.models.CardInfo;
 import rationalduos.atulsoori.nofucksgiven.utils.AppConstants;
 
 
@@ -60,7 +61,7 @@ public class ImageCard extends GenericCard {
         retryButton = (Button) view.findViewById(R.id.retry_button);
 
         try {
-            url = getArguments().getString("cardContent");
+            url = ((CardInfo)getArguments().getParcelable("cardInfo")).getData();
         } catch (Exception e) {
             url = "";
             Log.e("NFG", Log.getStackTraceString(e));

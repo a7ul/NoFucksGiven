@@ -139,16 +139,16 @@ class LoadRunner implements Runnable {
 
         for (int dataIndex = 0; dataIndex < cardDataFromJsonList.length(); ++dataIndex) {
             JSONObject cardDataFromJson = cardDataFromJsonList.getJSONObject(dataIndex);
-            String type;
+            int type;
             switch (config_name) {
                 case "images":
                     type = AppConstants.CARD_TYPE_IMAGE;
                     break;
                 case "texts":
-                    type = AppConstants.CARD_TYPE_MARKDOWN;
+                    type = AppConstants.CARD_TYPE_TEXT_URL;
                     break;
                 default:
-                    type = null;
+                    type = AppConstants.CARD_TYPE_INVALID;
                     break;
             }
 
@@ -161,12 +161,12 @@ class LoadRunner implements Runnable {
         return cardInfoList;
     }
 
-    private CardInfo getCardInfoFromCardJsonObject(String _type, JSONObject cardDataFromJson, String basePath) throws JSONException {
+    private CardInfo getCardInfoFromCardJsonObject(int _type, JSONObject cardDataFromJson, String basePath) throws JSONException {
 
         String name = "";
         String contributor = "";
         String data = null;
-        String type = _type;
+        int type = _type;
         String id = null;
         int favourite = 0;
 
@@ -207,7 +207,7 @@ class LoadRunner implements Runnable {
         } catch (Exception ignored) {
         }
 
-        if (data == null || type == null || id == null) {
+        if (data == null || type == AppConstants.CARD_TYPE_INVALID || id == null) {
             throw new JSONException("Incorrect card Json data" + type + cardDataFromJson.toString());
         }
 

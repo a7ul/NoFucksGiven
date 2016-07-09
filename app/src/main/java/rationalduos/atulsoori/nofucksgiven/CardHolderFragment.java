@@ -14,6 +14,7 @@ import com.eftimoff.viewpagertransformers.RotateUpTransformer;
 import java.util.ArrayList;
 
 import rationalduos.atulsoori.nofucksgiven.adapters.DynamicPagerAdapter;
+import rationalduos.atulsoori.nofucksgiven.cardViews.NothingToShowFragment;
 import rationalduos.atulsoori.nofucksgiven.models.CardInfo;
 import rationalduos.atulsoori.nofucksgiven.utils.CardTransformer;
 import rationalduos.atulsoori.nofucksgiven.utils.HackyViewPager;
@@ -37,6 +38,9 @@ public class CardHolderFragment extends Fragment {
 
         DynamicPagerAdapter mDynamicPagerAdapter = new DynamicPagerAdapter(getChildFragmentManager());
 
+        if(listOfCards.size() == 0) {
+            mDynamicPagerAdapter.addFragment(new NothingToShowFragment() );
+        }
         for (int i = 0; (i < listOfCards.size()); ++i) {
             try {
                 mDynamicPagerAdapter.addFragment(CardTransformer.cardInfoToFragment(listOfCards.get(i)));

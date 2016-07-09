@@ -43,7 +43,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_FUCKS_TABLE = "CREATE TABLE " + TABLE_FUCKS + "("
                 + KEY_ID + " TEXT PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_CONTRIBUTOR + " TEXT," + KEY_TYPE + " TEXT," + KEY_DATA + " TEXT," + KEY_FAVOURITE + " INT DEFAULT 0" + ")";
+                + KEY_CONTRIBUTOR + " TEXT," + KEY_TYPE + " INT," + KEY_DATA + " TEXT," + KEY_FAVOURITE + " INT DEFAULT 0" + ")";
         db.execSQL(CREATE_FUCKS_TABLE);
     }
 
@@ -101,7 +101,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         if (cursor != null) {
             cursor.moveToFirst();
-            f = new CardInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5));
+            f = new CardInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4),cursor.getInt(5));
 
             cursor.close();
         }
@@ -112,7 +112,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public List<CardInfo> getAllFucks() {
         List<CardInfo> cardInfoList = new ArrayList<>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_FUCKS;
+        String selectQuery = "SELECT  * FROM " + TABLE_FUCKS + " ORDER BY RANDOM()";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -120,7 +120,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                CardInfo cardInfo = new CardInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5));
+                CardInfo cardInfo = new CardInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4),cursor.getInt(5));
                 // Adding cardInfo to list
                 cardInfoList.add(cardInfo);
             } while (cursor.moveToNext());
@@ -129,18 +129,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return cardInfoList;
     }
 
-    public List<CardInfo> getAllFucksOfType(String type) {
+    public List<CardInfo> getAllFucksOfType(int type) {
         List<CardInfo> cardInfoList = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_FUCKS;
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery + " WHERE " + KEY_TYPE + " = ?", new String[]{type});
+        Cursor cursor = db.rawQuery(selectQuery + " WHERE " + KEY_TYPE + " = "+Integer.toString(type),null);
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                CardInfo cardInfo = new CardInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5));
+                CardInfo cardInfo = new CardInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4),cursor.getInt(5));
                 // Adding cardInfo to list
                 cardInfoList.add(cardInfo);
             } while (cursor.moveToNext());
@@ -232,7 +232,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                CardInfo cardInfo = new CardInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5));
+                CardInfo cardInfo = new CardInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4),cursor.getInt(5));
                 // Adding cardInfo to list
                 cardInfoList.add(cardInfo);
             } while (cursor.moveToNext());

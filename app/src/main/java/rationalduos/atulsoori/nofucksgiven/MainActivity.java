@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             case AppConstants.NAVIGATION_TEXTS: //Text
                 ArrayList<CardInfo> listOfCards = new ArrayList<>();
                 listOfCards.addAll(dbHandler.getAllFucksOfType(AppConstants.CARD_TYPE_TEXT));
-                listOfCards.addAll(dbHandler.getAllFucksOfType(AppConstants.CARD_TYPE_MARKDOWN));
+                listOfCards.addAll(dbHandler.getAllFucksOfType(AppConstants.CARD_TYPE_TEXT_URL));
                 return getCardHolderFromList(listOfCards);
             case AppConstants.NAVIGATION_FAVOURITES: //Favourites
                 return getCardHolderFromList((ArrayList<CardInfo>) dbHandler.getAllFavouriteFucks());

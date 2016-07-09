@@ -3,14 +3,12 @@ package rationalduos.atulsoori.nofucksgiven.cardViews;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.SpannedString;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,6 +20,7 @@ import java.net.URLConnection;
 
 import in.uncod.android.bypass.Bypass;
 import rationalduos.atulsoori.nofucksgiven.R;
+import rationalduos.atulsoori.nofucksgiven.models.CardInfo;
 import rationalduos.atulsoori.nofucksgiven.utils.AppConstants;
 
 /**
@@ -30,13 +29,26 @@ import rationalduos.atulsoori.nofucksgiven.utils.AppConstants;
 public class MarkDownCard extends GenericCard {
     TextView textView;
     StringBuffer stringBuffer = null;
-    String markdownUrl;
+    String cardData;
+    int cardType;
     private LinearLayout spinner;
     private LinearLayout errorView;
     private Button retryButton;
 
-    public void setMarkdown(String URL) {
-        new DownloadFileFromURL(spinner).execute(URL);
+    public void setCardText(String text){
+        // This method sets the Markdown view
+        try {
+            Bypass bypass = new Bypass(getActivity());
+            SpannedString string = new SpannedString(bypass.markdownToSpannable(text));
+            textView.setText(string);
+            textView.setMovementMethod(LinkMovementMethod.getInstance());
+        } catch (Exception e) {
+            errorView.setVisibility(View.VISIBLE);
+        }
+        spinner.setVisibility(View.GONE);
+    }
+    public void loadMarkDownFromUrl(String URL) {
+        new DownloadFileFromURL().execute(URL);
     }
 
     @Override
@@ -44,27 +56,32 @@ public class MarkDownCard extends GenericCard {
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, vg, savedInstanceState);
 
-
         textView = (TextView) view.findViewById(R.id.text_content);
         spinner = (LinearLayout) view.findViewById(R.id.progressBar);
         errorView = (LinearLayout) view.findViewById(R.id.error_view);
         retryButton = (Button) view.findViewById(R.id.retry_button);
 
         try {
-            markdownUrl = getArguments().getString("cardContent");
+            CardInfo cardInfo = getArguments().getParcelable("cardInfo");
+            cardData = cardInfo.getData();
+            cardType = cardInfo.getType();
         } catch (Exception e) {
-            markdownUrl = "";
+            cardData = "";
+            cardType = AppConstants.CARD_TYPE_TEXT_URL; // This ensures retry dialog is shown in case of error
             Log.e("NFG", Log.getStackTraceString(e));
         }
 
-        retryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setMarkdown(markdownUrl);
-            }
-        });
-
-        setMarkdown(markdownUrl);
+        if (cardType == AppConstants.CARD_TYPE_TEXT) {
+            setCardText(cardData);
+        } else {
+            retryButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    loadMarkDownFromUrl(cardData);
+                }
+            });
+            loadMarkDownFromUrl(cardData);
+        }
         return view;
     }
 
@@ -89,11 +106,6 @@ public class MarkDownCard extends GenericCard {
     }
 
     class DownloadFileFromURL extends AsyncTask<String, String, String> {
-        LinearLayout spinner;
-
-        public DownloadFileFromURL(LinearLayout spinner) {
-            this.spinner = spinner;
-        }
 
         @Override
         protected void onPreExecute() {
@@ -129,10 +141,7 @@ public class MarkDownCard extends GenericCard {
         @Override
         protected void onPostExecute(String file_url) {
             try {
-                Bypass bypass = new Bypass(getActivity());
-                SpannedString string = new SpannedString(bypass.markdownToSpannable(stringBuffer.toString()));
-                textView.setText(string);
-                textView.setMovementMethod(LinkMovementMethod.getInstance());
+                setCardText(stringBuffer.toString());
             } catch (Exception e) {
                 errorView.setVisibility(View.VISIBLE);
             }
