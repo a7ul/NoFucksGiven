@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/share_copy_button_bg"
-                    android:drawableRight="@android:drawable/ic_menu_info_details"
+                    android:drawableRight="@drawable/ic_content_copy_black_24dp"
                     android:paddingRight="20dp"
                     android:text="@string/copy_button_text"
                     android:textColor="#595959"/>
@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/share_copy_button_bg"
-                    android:drawableRight="@android:drawable/ic_menu_share"
+                    android:drawableRight="@drawable/ic_input_black_24dp"
                     android:paddingRight="20dp"
                     android:text="@string/share_button_text"
                     android:textColor="#595959"/>
