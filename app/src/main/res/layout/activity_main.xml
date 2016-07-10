@@ -17,6 +17,7 @@
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:layout_gravity="start"
+        android:background="#0c1021"
         >
 
         <!--Place your ImageView here-->
@@ -33,7 +34,7 @@
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="#F3F3F3"
+            android:background="#0c1021"
             android:choiceMode="singleChoice"
             android:divider="#F3F3F3" />
     </LinearLayout>

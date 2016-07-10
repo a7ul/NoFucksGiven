@@ -87,11 +87,11 @@ public class MainActivity extends AppCompatActivity {
 
         // adding nav drawer items to array
         // Home
-        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[0], AppConstants.NAVIGATION_ITEMS_ICONS[0], Color.parseColor("#000000")));
-        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[1], AppConstants.NAVIGATION_ITEMS_ICONS[1], Color.parseColor("#000000")));
-        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[2], AppConstants.NAVIGATION_ITEMS_ICONS[2], Color.parseColor("#1976D2")));
-        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[3], AppConstants.NAVIGATION_ITEMS_ICONS[3], Color.parseColor("#b71c1c")));
-        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[4], AppConstants.NAVIGATION_ITEMS_ICONS[4], Color.parseColor("#1976D2")));
+        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[0], AppConstants.NAVIGATION_ITEMS_ICONS[0], Color.parseColor("#cccccc")));
+        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[1], AppConstants.NAVIGATION_ITEMS_ICONS[1], Color.parseColor("#cccccc")));
+        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[2], AppConstants.NAVIGATION_ITEMS_ICONS[2], Color.parseColor("#cccccc")));
+        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[3], AppConstants.NAVIGATION_ITEMS_ICONS[3], Color.parseColor("#cccccc")));
+        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[4], AppConstants.NAVIGATION_ITEMS_ICONS[4], Color.parseColor("#cccccc")));
 
         drawerList.setAdapter(new NavDrawerListAdapter(getApplicationContext(),
                 navDrawerItems));

@@ -61,11 +61,11 @@ public class NavDrawerListAdapter extends BaseAdapter {
 
         ListView p = (ListView) parent;
         if(p.isItemChecked(position)){
-            convertView.setBackgroundColor(Color.parseColor("#90CAF9"));
-            txtTitle.setTextColor(Color.BLACK);
+            convertView.setBackgroundColor(Color.parseColor("#444444"));
+            txtTitle.setTextColor(Color.WHITE);
         }else{
-            convertView.setBackgroundColor(Color.parseColor("#F3F3F3"));
-            txtTitle.setTextColor(Color.parseColor("#848484"));
+            convertView.setBackgroundColor(Color.parseColor("#0c1021"));
+            txtTitle.setTextColor(Color.parseColor("#aaaaaa"));
         }
 
         return convertView;
