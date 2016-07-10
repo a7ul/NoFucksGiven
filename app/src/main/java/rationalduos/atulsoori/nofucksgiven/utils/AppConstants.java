@@ -9,6 +9,7 @@ import rationalduos.atulsoori.nofucksgiven.R;
  */
 public class AppConstants {
 
+    public static final String AUTHOR_URL = "http://www.stackoverflow.com";
     /* Server stuff */
     public static String SERVER_URL = "https://bucketdevelopers.github.io/NFGAssets/";
     public static String INDEX_FILE = "index.json";
