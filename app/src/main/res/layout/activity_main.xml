@@ -10,14 +10,32 @@
         android:layout_height="match_parent"
         android:background="@android:color/white" />
 
-    <ListView
-        android:id="@+id/drawerList"
+    <!-- The navigation drawer -->
+    <LinearLayout
+        android:id="@+id/drawerLinear"
         android:layout_width="240dp"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
         android:layout_gravity="start"
-        android:background="#111111"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp" />
+        >
+
+        <!--Place your ImageView here-->
+        <ImageView
+            android:layout_width="240dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_nav_bg"
+            android:scaleType="fitXY"/>
+
+
+        <ListView
+            android:id="@+id/drawerList"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#F3F3F3"
+            android:choiceMode="singleChoice"
+            android:divider="#F3F3F3" />
+    </LinearLayout>
 
 </rationalduos.atulsoori.nofucksgiven.utils.HackyDrawerLayout>

@@ -1,5 +1,9 @@
 package rationalduos.atulsoori.nofucksgiven.utils;
 
+import android.graphics.Color;
+
+import rationalduos.atulsoori.nofucksgiven.R;
+
 /**
  * Created by ravio on 6/26/2016.
  */
@@ -57,7 +61,7 @@ public class AppConstants {
     public static String NO_INTERNET_ERROR = "First time usage requires Internet connectivity";
 
     /* Navigation drawer */
-    public final static String NAVIGATION_GENERAL = "General";
+    public final static String NAVIGATION_GENERAL = "Random";
     public final static String NAVIGATION_IMAGES = "Images";
     public final static String NAVIGATION_TEXTS = "Text";
     public final static String NAVIGATION_FAVOURITES = "Favourites";
@@ -68,5 +72,17 @@ public class AppConstants {
             NAVIGATION_IMAGES,
             NAVIGATION_FAVOURITES,
             NAVIGATION_ABOUT_US
+    };
+    public final static int NAVIGATION_ICON_GENERAL = R.drawable.ic_apps_black_24dp;
+    public final static int NAVIGATION_ICON_IMAGES = R.drawable.ic_image_black_24dp;
+    public final static int NAVIGATION_ICON_TEXTS = R.drawable.ic_text_format_black_24dp;
+    public final static int NAVIGATION_ICON_FAVOURITES = R.drawable.ic_favorite_black_24dp;
+    public final static int NAVIGATION_ICON_ABOUT_US = R.drawable.ic_info_black_24dp;
+    public final static int[] NAVIGATION_ITEMS_ICONS = {
+            NAVIGATION_ICON_GENERAL,
+            NAVIGATION_ICON_TEXTS,
+            NAVIGATION_ICON_IMAGES,
+            NAVIGATION_ICON_FAVOURITES,
+            NAVIGATION_ICON_ABOUT_US
     };
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- When selected, use grey -->
-    <item android:drawable="@android:drawable/star_on"
-        android:state_checked="true" />
+    <item android:state_checked="true">
+        <bitmap android:src="@drawable/ic_favorite_black_24dp" android:tint="#b71c1c"  />
+    </item>
     <!-- When not selected, use white-->
-    <item android:drawable="@android:drawable/star_off"
-        android:state_checked="false"/>
+    <item android:drawable="@drawable/ic_favorite_border_black_24dp" android:state_checked="false" />
 
 </selector>

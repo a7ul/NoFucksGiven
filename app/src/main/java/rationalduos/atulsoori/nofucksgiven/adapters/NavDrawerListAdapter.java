@@ -2,14 +2,18 @@ package rationalduos.atulsoori.nofucksgiven.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import rationalduos.atulsoori.nofucksgiven.R;
 import rationalduos.atulsoori.nofucksgiven.models.NavDrawerItem;
@@ -20,8 +24,7 @@ import rationalduos.atulsoori.nofucksgiven.models.NavDrawerItem;
 public class NavDrawerListAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<NavDrawerItem> navDrawerItems;
-
-    public NavDrawerListAdapter(Context context, ArrayList<NavDrawerItem> navDrawerItems){
+    public NavDrawerListAdapter(Context context, ArrayList<NavDrawerItem> navDrawerItems) {
         this.context = context;
         this.navDrawerItems = navDrawerItems;
     }
@@ -53,7 +56,17 @@ public class NavDrawerListAdapter extends BaseAdapter {
         TextView txtTitle = (TextView) convertView.findViewById(R.id.title);
 
         imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
+        imgIcon.setColorFilter(navDrawerItems.get(position).getColor());
         txtTitle.setText(navDrawerItems.get(position).getTitle());
+
+        ListView p = (ListView) parent;
+        if(p.isItemChecked(position)){
+            convertView.setBackgroundColor(Color.parseColor("#90CAF9"));
+            txtTitle.setTextColor(Color.BLACK);
+        }else{
+            convertView.setBackgroundColor(Color.parseColor("#F3F3F3"));
+            txtTitle.setTextColor(Color.parseColor("#848484"));
+        }
 
         return convertView;
     }

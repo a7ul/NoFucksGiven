@@ -1,6 +1,7 @@
 package rationalduos.atulsoori.nofucksgiven;
 
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -9,7 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.facebook.stetho.Stetho;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence title;
     private FragmentManager fragmentManager;
     private ArrayList<NavDrawerItem> navDrawerItems;
-
+    private LinearLayout drawerLinear;
 
     private CardHolderFragment getCardHolderFromList(ArrayList<CardInfo> cardsList) {
         CardHolderFragment cardHolder = new CardHolderFragment();
@@ -59,9 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 return getCardHolderFromList((ArrayList<CardInfo>) dbHandler.getAllFavouriteFucks());
             case AppConstants.NAVIGATION_ABOUT_US:
                 ArrayList<CardInfo> cardList = new ArrayList<>();
-                cardList.add(new CardInfo(null,null,null,AppConstants.CARD_TYPE_ABOUT_US,null,0));
+                cardList.add(new CardInfo(null, null, null, AppConstants.CARD_TYPE_ABOUT_US, null, 0));
                 return getCardHolderFromList(cardList);
-             default:
+            default:
                 return null;
         }
     }
@@ -78,21 +79,17 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout = (HackyDrawerLayout) findViewById(R.id.drawerLayout);
         drawerList = (ListView) findViewById(R.id.drawerList);
+        drawerLinear = (LinearLayout) findViewById(R.id.drawerLinear);
 
-        navDrawerItems = new ArrayList<NavDrawerItem>();
+        navDrawerItems = new ArrayList<>();
 
         // adding nav drawer items to array
         // Home
-        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[0], android.R.drawable.sym_def_app_icon));
-        // Find People
-        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[1], android.R.drawable.sym_def_app_icon));
-        // Photos
-        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[2], android.R.drawable.sym_def_app_icon));
-        // Communities, Will add a counter here
-        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[3], android.R.drawable.sym_def_app_icon));
-        // Pages
-        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[4], android.R.drawable.sym_def_app_icon));
-
+        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[0], AppConstants.NAVIGATION_ITEMS_ICONS[0], Color.parseColor("#000000")));
+        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[1], AppConstants.NAVIGATION_ITEMS_ICONS[1], Color.parseColor("#000000")));
+        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[2], AppConstants.NAVIGATION_ITEMS_ICONS[2], Color.parseColor("#1976D2")));
+        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[3], AppConstants.NAVIGATION_ITEMS_ICONS[3], Color.parseColor("#b71c1c")));
+        navDrawerItems.add(new NavDrawerItem(AppConstants.NAVIGATION_ITEMS[4], AppConstants.NAVIGATION_ITEMS_ICONS[4], Color.parseColor("#1976D2")));
 
         drawerList.setAdapter(new NavDrawerListAdapter(getApplicationContext(),
                 navDrawerItems));
@@ -142,16 +139,16 @@ public class MainActivity extends AppCompatActivity {
         // Update Title on action bar
         drawerList.setItemChecked(position, true);
         setTitle(AppConstants.NAVIGATION_ITEMS[position]);
-        drawerLayout.closeDrawer(drawerList);
+        drawerLayout.closeDrawer(drawerLinear);
     }
 
     @Override
     public void setTitle(CharSequence _title) {
         title = _title;
-        try{
+        try {
             getSupportActionBar().setTitle(title);
-        }catch (Exception exception){
-            Log.e("NFG",Log.getStackTraceString(exception));
+        } catch (Exception exception) {
+            Log.e("NFG", Log.getStackTraceString(exception));
         }
     }
 
@@ -166,5 +163,4 @@ public class MainActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
-
 }

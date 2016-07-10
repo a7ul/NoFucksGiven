@@ -1,14 +1,23 @@
 package rationalduos.atulsoori.nofucksgiven.models;
 
+import android.graphics.Color;
+
 /**
  * Created by atulr on 09/07/16.
  */
 public class NavDrawerItem {
+    private int color;
     private String title;
     private int icon;
-    public NavDrawerItem(String title, int icon){
+
+    private NavDrawerItem(String title, int icon){
         this.title = title;
         this.icon = icon;
+    }
+
+    public NavDrawerItem(String title, int icon , int color){
+        this(title,icon);
+        this.color = color;
     }
 
     public int getIcon() {
@@ -23,7 +32,7 @@ public class NavDrawerItem {
         this.icon = icon;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public int getColor() {
+        return color;
     }
 }

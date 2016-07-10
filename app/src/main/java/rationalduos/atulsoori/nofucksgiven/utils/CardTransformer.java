@@ -39,7 +39,6 @@ public class CardTransformer {
 
         switch (cardInfo.getType()) {
             case CARD_TYPE_TEXT:
-                Log.d("NFG","Card type text");
                 return createMarkDownCard(cardInfo);
             case CARD_TYPE_IMAGE:
                 return createImageCard(cardInfo);
