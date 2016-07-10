@@ -22,6 +22,11 @@ import rationalduos.atulsoori.nofucksgiven.utils.HackyViewPager;
 
 public class CardHolderFragment extends Fragment {
     ArrayList<CardInfo> listOfCards;
+    DynamicPagerAdapter mDynamicPagerAdapter ;
+    public CardHolderFragment() {
+        super();
+        mDynamicPagerAdapter = null;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup vg,
@@ -36,7 +41,7 @@ public class CardHolderFragment extends Fragment {
             Log.e("NFG", Log.getStackTraceString(e));
         }
 
-        DynamicPagerAdapter mDynamicPagerAdapter = new DynamicPagerAdapter(getChildFragmentManager());
+        mDynamicPagerAdapter = new DynamicPagerAdapter(getChildFragmentManager());
 
         if(listOfCards.size() == 0) {
             mDynamicPagerAdapter.addFragment(new NothingToShowFragment() );
@@ -59,7 +64,29 @@ public class CardHolderFragment extends Fragment {
         } catch (Exception e) {
             Log.d("NFG", Log.getStackTraceString(e));
         }
+        if(savedInstanceState != null){
+            Log.d("NFG","CardHolderFragment has some bundle");
+            int activeIndex = savedInstanceState.getInt("activeFragment");
+            Log.d("NFG1","Bundle has some active fragment "+activeIndex);
+            Fragment activeFragment = mDynamicPagerAdapter.getItem(activeIndex);
+            mDynamicPagerAdapter.startUpdate((ViewGroup) pager);
+            mDynamicPagerAdapter.setPrimaryItem((ViewGroup)pager,activeIndex,activeFragment);
+            mDynamicPagerAdapter.finishUpdate((ViewGroup) pager);
+
+        } else {
+            Log.d("NFG1","Empty bundle");
+        }
+        //Log.d("NFG1", Log.getStackTraceString(new Exception()));
+        Log.d("NFG1","Returning view");
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle b){
+        int f = mDynamicPagerAdapter.getCurrentFragmentPosition();
+        b.putInt("activeFragment",(f));
+        Log.d("NFG","CardHolderFragment onSaveInstanceState");
+        super.onSaveInstanceState(b);
     }
 
 }

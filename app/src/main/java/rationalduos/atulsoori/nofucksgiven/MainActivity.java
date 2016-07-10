@@ -99,9 +99,6 @@ public class MainActivity extends AppCompatActivity {
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fragmentManager.beginTransaction().replace(R.id.frameContainer,
-                getCardHolderBasedOnCategory(AppConstants.NAVIGATION_GENERAL)).commit(); //Load General CardHolder
-
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer) {
             public void onDrawerClosed(View view) {
                 getSupportActionBar().setTitle(title);
@@ -116,6 +113,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             selectItem(0);
+        } else {
+            int position = savedInstanceState.getInt("currentNavItem");
+            drawerList.setItemChecked(position, true);
+            setTitle(AppConstants.NAVIGATION_ITEMS[position]);
+            drawerLayout.closeDrawer(drawerLinear);
+            activeDrawerItemPosition = position;
         }
     }
 
@@ -136,12 +139,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void selectItem(int position) {
         String category = AppConstants.NAVIGATION_ITEMS[position];
+        Log.d("NFG1","Selecting item");
         fragmentManager.beginTransaction().replace(R.id.frameContainer, getCardHolderBasedOnCategory(category)).commit();
 
+        Log.d("NFG1","After Selecting item");
         // Update Title on action bar
         drawerList.setItemChecked(position, true);
         setTitle(AppConstants.NAVIGATION_ITEMS[position]);
-
         drawerLayout.closeDrawer(drawerLinear);
         activeDrawerItemPosition = position;
     }
@@ -172,13 +176,7 @@ public class MainActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         //save current item index
         savedInstanceState.putInt("currentNavItem",activeDrawerItemPosition);
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        //have the activity switch to nav item index
-        int pos = savedInstanceState.getInt("currentNavItem");
-        selectItem(pos);
+        super.onSaveInstanceState(savedInstanceState);
     }
 
 }

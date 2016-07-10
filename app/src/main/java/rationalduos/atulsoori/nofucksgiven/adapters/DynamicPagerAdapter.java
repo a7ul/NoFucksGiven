@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
@@ -18,6 +20,11 @@ public class DynamicPagerAdapter extends FragmentPagerAdapter {
 
     private ArrayList<Fragment> fragmentsList = new ArrayList<>();
     private long baseId = 0;
+    private int currentFragmentPos;
+
+    public int getCurrentFragmentPosition() {
+        return currentFragmentPos;
+    }
 
     public void addFragment(Fragment f) {
         fragmentsList.add(f);
@@ -41,6 +48,10 @@ public class DynamicPagerAdapter extends FragmentPagerAdapter {
         pager.setAdapter(this);
     }
 
+    public int getPosition(Fragment f) {
+        return fragmentsList.indexOf(f);
+    }
+
     @Override
     public Fragment getItem(int pos) {
         return fragmentsList.get(pos);
@@ -50,5 +61,16 @@ public class DynamicPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return fragmentsList.size();
     }
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        Log.d("NFG","setPrimary item " + object.getClass().toString() );
+        Log.d("NFG","setPrimary id " + container.getContext().getResources().getResourceName(container.getId()));
+        Log.d("NFG1","setPrimary item " + position );
+        currentFragmentPos = position;
+        super.setPrimaryItem(container, position, object);
+    }
+
+
 
 }
