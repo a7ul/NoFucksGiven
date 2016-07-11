@@ -101,16 +101,18 @@ public class MainActivity extends AppCompatActivity {
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer) {
             public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
                 getSupportActionBar().setTitle(title);
                 invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
                 getSupportActionBar().setTitle(drawerTitle);
                 invalidateOptionsMenu();
             }
         };
-
+        drawerLayout.setDrawerListener(drawerToggle);
         if (savedInstanceState == null) {
             selectItem(0);
         } else {
