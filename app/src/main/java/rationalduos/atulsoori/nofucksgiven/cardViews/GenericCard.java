@@ -2,6 +2,7 @@ package rationalduos.atulsoori.nofucksgiven.cardViews;
 
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -32,6 +34,13 @@ public abstract class GenericCard extends Fragment {
         Button shareButton = (Button) containerView.findViewById(R.id.share_button);
         Button copyButton = (Button) containerView.findViewById(R.id.copy_button);
         ToggleButton favToggle = (ToggleButton) containerView.findViewById(R.id.fav_toggle);
+        ImageView emoIcoView = (ImageView) containerView.findViewById(R.id.emo_icon);
+
+        TypedArray images = getResources().obtainTypedArray(R.array.random_emo_icon_images);
+        int choice = (int) (Math.random() * images.length());
+        emoIcoView.setImageResource(images.getResourceId(choice,R.drawable.ic_emoico1));
+        images.recycle();
+
         dbHandler = new DatabaseHandler(getContext());
 
         try {

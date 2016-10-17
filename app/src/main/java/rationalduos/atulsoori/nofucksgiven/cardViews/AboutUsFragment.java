@@ -22,7 +22,7 @@ public class AboutUsFragment extends Fragment {
         View view = inflater.inflate(R.layout.about_us, vg, false);
         WebView wv = (WebView) view.findViewById(R.id.web_view_gif);
         wv.loadUrl("file:///android_asset/gif_webview.html");
-        wv.setOnTouchListener(new CheckForClickTouchLister());
+        wv.setOnTouchListener(new CheckForClickTouchLister());wv.getSettings().setLoadWithOverviewMode(true);
         return view;
     }
 

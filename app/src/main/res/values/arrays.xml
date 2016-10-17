@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="random_emo_icon_images">
+        <item>@drawable/ic_emoico1</item>
+        <item>@drawable/ic_emoico2</item>
+        <item>@drawable/ic_emoico3</item>
+        <item>@drawable/ic_emoico4</item>
+        <item>@drawable/ic_emoico5</item>
+        <item>@drawable/ic_emoico6</item>
+    </array>
+</resources>
